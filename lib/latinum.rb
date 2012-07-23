@@ -19,3 +19,4 @@
 # THE SOFTWARE.
 
 require 'latinum/resource'
+require 'latinum/collection'
