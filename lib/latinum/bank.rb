@@ -33,40 +33,34 @@ module Latinum
 		attr :factor
 	end
 	
-	class ResourceFormatter
-		def format(resource)
-			resource.to_s
-		end
-	end
-	
-	class DecimalCurrencyFormatter < ResourceFormatter
-		def initialize(symbol, name)
-			@symbol = symbol
-			
-			@decimal_places = 2
-		end
-		
-		def format(resource)
-			fix, frac = resource.amount.to_s('F').split(/\./, 2)
-			negative = fix < 0
-			
-			frac_string = frac.to_s[0...2].ljust(@decimal_places, '0')
-			
-			fix_string = fix.to_s
-			k = fix_string.size % 3
-			groups = [fix_string[0...k]] + fix_string[k..-1].scan(/.{3}/).to_a
-			
-			"#{negative ? '-' : ''}#{@symbol}#{groups.join(',')}.#{frac}"
-		end
-	end
-	
 	class Bank
-		def initialize
+		def initialize(*imports)
 			@rates = []
 			@exchange = {}
 			
 			@formatters = {}
+			
+			# Symbols and their associated priorities
 			@symbols = {}
+			
+			imports.each do |resources|
+				import(resources)
+			end
+		end
+		
+		def import(resources)
+			resources.each do |name, config|
+				name = (config[:name] || name).to_s
+				
+				# Create a formatter:
+				self[name] = config[:formatter].new(config)
+				
+				if config[:symbol]
+					symbols = (@symbols[config[:symbol]] ||= [])
+					symbols << [config.fetch(:priority, -1), name.to_s]
+					symbols.sort!.uniq!
+				end
+			end
 		end
 		
 		attr :rates
@@ -97,21 +91,22 @@ module Latinum
 			if parts.size == 2
 				Resource.new(parts[0].gsub(/[^\.0-9]/, ''), parts[1])
 			else
-				name = @symbols[string.gsub(/[\-\.,0-9]/, '')]
+				# Lookup the named symbol, e.g. '$', and get the highest priority name:
+				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last
 				
 				if symbol
-					Resource.new(string.gsub(/[^\.0-9]/, ''), name)
+					Resource.new(string.gsub(/[^\.0-9]/, ''), symbol.last.to_s)
 				else
 					raise ArgumentError.new("Could not parse #{string}")
 				end
 			end
 		end
 		
-		def format(resource, options = {})
-			formatter = options[:formatter] || @formatters[resource.name]
-			raise ArgumentError.new("No formatter found for #{resource.name}") if formatter == nil
+		def format(resource, *args)
+			formatter = @formatters[resource.name]
+			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
 			
-			formatter.format(resource)
+			formatter.format(resource.amount, *args)
 		end
 	end
 end
