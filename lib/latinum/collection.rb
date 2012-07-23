@@ -19,29 +19,28 @@
 # THE SOFTWARE.
 
 require 'bigdecimal'
+require 'set'
 
 module Latinum
 	class Collection
-		def initialize
-			@resources = Hash.new { BigDecimal.new(0) }
+		def initialize(names = Set.new)
+			@names = names
+			@resources = Hash.new {|hash, key| @names << key; BigDecimal.new(0)}
 		end
 		
+		attr :names
 		attr :resources
 		
-		def + resource
+		def << resource
 			@resources[resource.name] += resource.amount
 		end
 		
-		def - resource
-			@resources[resource.name] -= resource.amount
-		end
-		
 		def [] key
-			@resource[key]
+			Resource.new(@resources[key], key)
 		end
 		
-		def []= key, value
-			@resource[key] = value
+		def []= key, amount
+			@resources[key] = amount
 		end
 	end
 end
