@@ -22,7 +22,7 @@ module Latinum
 	module VERSION
 		MAJOR = 0
 		MINOR = 2
-		TINY  = 0
+		TINY  = 3
 
 		STRING = [MAJOR, MINOR, TINY].join('.')
 	end
