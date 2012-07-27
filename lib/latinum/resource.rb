@@ -54,6 +54,14 @@ module Latinum
 			self.class.new(@amount * factor, @name)
 		end
 		
+		def exchange(rate, name, precision = nil)
+			exchanged_amount = @amount * rate
+			
+			exchanged_amount = exchanged_amount.round(precision) if precision
+			
+			self.class.new(exchanged_amount, name)
+		end
+		
 		def to_s(options = {})
 			@amount.to_s('F') + ' ' + @name.to_s
 		end
