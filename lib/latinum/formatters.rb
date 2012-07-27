@@ -39,7 +39,7 @@ module Latinum
 				@symbol = options[:symbol] || '$'
 				@separator = options[:separator] || '.'
 				@delimeter = options[:delimter] || ','
-				@places = options[:places] || 2
+				@places = options[:precision] || 2
 				@zero = options[:zero] || '0'
 
 				@name = options[:name]

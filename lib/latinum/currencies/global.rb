@@ -27,6 +27,7 @@ module Latinum
 		Global = {}
 		
 		Global[:NZD] = {
+			:precision => 2,
 			:symbol => '$',
 			:name => 'NZD',
 			:description => 'New Zealand Dollar',
@@ -34,6 +35,7 @@ module Latinum
 		}
 		
 		Global[:GBP] = {
+			:precision => 2,
 			:symbol => '£',
 			:name => 'GBP',
 			:description => 'Pound Sterling',
@@ -41,6 +43,7 @@ module Latinum
 		}
 		
 		Global[:AUD] = {
+			:precision => 2,
 			:symbol => '$',
 			:name => 'AUD',
 			:description => 'Australian Dollar',
@@ -48,6 +51,7 @@ module Latinum
 		}
 		
 		Global[:USD] = {
+			:precision => 2,
 			:symbol => '$',
 			:name => 'USD',
 			:description => 'United States Dollar',
@@ -55,12 +59,21 @@ module Latinum
 		}
 		
 		Global[:EUR] = {
+			:precision => 2,
 			:symbol => '€',
 			:name => 'EUR',
 			:description => 'Euro',
 			:formatter => Formatters::DecimalCurrencyFormatter,
 			#:delimeter => '.',
 			#:separator => ','
+		}
+		
+		Global[:JPY] = {
+			:precision => 0,
+			:symbol => '¥',
+			:name => 'JPY',
+			:description => 'Japanese Yen',
+			:formatter => Formatters::DecimalCurrencyFormatter
 		}
 	end
 end
