@@ -18,5 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'latinum/bank'
 require 'latinum/resource'
 require 'latinum/collection'
+
+require 'bigdecimal'
+require 'bigdecimal/util'
+
+if RUBY_VERSION < "1.9"
+	require 'latinum/extensions/bigdecimal-1.8'
+end

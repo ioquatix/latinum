@@ -25,7 +25,7 @@ module Latinum
 		def initialize(input, output, factor)
 			@input = input
 			@output = output
-			@factor = BigDecimal(factor)
+			@factor = factor.to_d
 		end
 		
 		attr :input

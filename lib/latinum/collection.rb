@@ -25,7 +25,7 @@ module Latinum
 	class Collection
 		def initialize(names = Set.new)
 			@names = names
-			@resources = Hash.new {|hash, key| @names << key; BigDecimal.new(0)}
+			@resources = Hash.new {|hash, key| @names << key; BigDecimal.new("0")}
 		end
 		
 		attr :names

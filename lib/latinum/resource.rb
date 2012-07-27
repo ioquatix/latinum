@@ -29,7 +29,7 @@ module Latinum
 		attr :name
 		
 		def initialize(amount, name)
-			@amount = BigDecimal(amount)
+			@amount = amount.to_d
 			@name = name
 		end
 		
