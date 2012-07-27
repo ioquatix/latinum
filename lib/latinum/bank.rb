@@ -86,7 +86,7 @@ module Latinum
 		end
 		
 		def parse(string)
-			parts = string.strip.split(/\s+, 2/)
+			parts = string.strip.split(/\s+/, 2)
 			
 			if parts.size == 2
 				Resource.new(parts[0].gsub(/[^\.0-9]/, ''), parts[1])
