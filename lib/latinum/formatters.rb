@@ -46,7 +46,7 @@ module Latinum
 			end
 
 			def format(amount, options = DEFAULT_OPTIONS)
-				fix, frac = amount.to_s('F').split(/\./, 2)
+				fix, frac = amount.abs.to_s('F').split(/\./, 2)
 
 				# The sign of the number
 				sign = amount.sign < 0 ? '-' : ''
