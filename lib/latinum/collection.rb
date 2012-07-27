@@ -33,6 +33,8 @@ module Latinum
 		
 		def << resource
 			@resources[resource.name] += resource.amount
+			
+			return self
 		end
 		
 		def [] key
