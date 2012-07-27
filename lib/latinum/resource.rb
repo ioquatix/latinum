@@ -35,13 +35,13 @@ module Latinum
 		
 		# By default, we can only add and subtract if the name is the same
 		def + other
-			throw ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
+			raise ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
 			
 			self.class.new(@amount + other.amount, @name)
 		end
 		
 		def - other
-			throw ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
+			raise ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
 			
 			self.class.new(@amount - other.amount, @name)
 		end
