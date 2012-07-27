@@ -38,6 +38,8 @@ module Latinum
 			@rates = []
 			@exchange = {}
 			
+			# This implementation may change:
+			@currencies = {}
 			@formatters = {}
 			
 			# Symbols and their associated priorities
@@ -52,8 +54,10 @@ module Latinum
 			resources.each do |name, config|
 				name = (config[:name] || name).to_s
 				
+				@currencies[name] = config
+				
 				# Create a formatter:
-				self[name] = config[:formatter].new(config)
+				@formatters[name] = config[:formatter].new(config)
 				
 				if config[:symbol]
 					symbols = (@symbols[config[:symbol]] ||= [])
@@ -63,26 +67,28 @@ module Latinum
 			end
 		end
 		
+		def [] name
+			@currencies[name]
+		end
+		
 		attr :rates
 		attr :symbols
-		attr :formatters
+		attr :currencies
 		
-		def << object
+		def << rate
 			@rates << rate
 			
 			@exchange[rate.input] ||= {}
 			@exchange[rate.input][rate.output] = rate
 		end
 		
-		def []= name, formatter
-			@formatters[name] = formatter
-		end
-		
 		def exchange(resource, for_name)
 			rate = @exchange[resource.name][for_name]
 			raise ArgumentError.new("Invalid rate specified #{rate}") if rate == nil
 			
-			Resource.new(resource.amount * rate.factor, for_name)
+			config = self[for_name]
+			
+			resource.exchange(rate.factor, for_name, config[:precision])
 		end
 		
 		def parse(string)
