@@ -43,8 +43,7 @@ To add multiple currencies together, use a collection:
 
 	> currencies = Set.new
 	> collection = Latinum::Collection.new(currencies)
-	> collection << ten
-	> collection << twenty
+	> collection << [ten, twenty]
 	> currencies.collect {|currency| collection[currency]}
 	=> [10.0 NZD, 20.0 AUD]
 

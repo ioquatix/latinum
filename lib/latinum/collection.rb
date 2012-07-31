@@ -31,10 +31,32 @@ module Latinum
 		attr :names
 		attr :resources
 		
-		def << resource
+		def add resource
 			@resources[resource.name] += resource.amount
+		end
+		
+		def << object
+			case object
+			when Resource
+				add(object)
+			when Array
+				object.each { |resource| add(resource) }
+			when Collection
+				object.resources.each { |name, amount| @resources[name] += amount }
+			end
 			
 			return self
+		end
+		
+		def others
+			self.dup
+			
+			case others
+			when Array
+				others.each { |resource| self << resource }
+			when Collection
+				
+			end
 		end
 		
 		def [] key
