@@ -5,7 +5,7 @@ Latinum
 * Copyright (C) 2012 Samuel G. D. Williams.
 * Released under the MIT license.
 
-Latinum is a framework for resource and currency calculations. *It is currently a work in progress and not designed to be taken seriously at this time*.
+Latinum is a framework for resource and currency calculations.
 
 Basic Usage
 -----------
