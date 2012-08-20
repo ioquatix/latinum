@@ -75,5 +75,13 @@ module Latinum
 			:description => 'Japanese Yen',
 			:formatter => Formatters::DecimalCurrencyFormatter
 		}
+		
+		Global[:BTC] = {
+			:precision => 8,
+			:symbol => 'B⃦',
+			:name => 'BTC',
+			:description => 'Bitcoin',
+			:formatter => Formatters::DecimalCurrencyFormatter
+		}
 	end
 end

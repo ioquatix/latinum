@@ -22,6 +22,9 @@ class BankTest < Test::Unit::TestCase
 		
 		resource = Latinum::Resource.new("-100", "NZD")
 		assert_equal "-$100.00 NZD", @bank.format(resource)
+		
+		resource = Latinum::Resource.new("1.12345678", "BTC")
+		assert_equal "B⃦1.12000000 BTC", @bank.format(resource)
 	end
 	
 	def test_exchange
