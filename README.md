@@ -4,6 +4,7 @@ Latinum
 * Author: Samuel G. D. Williams (<http://www.oriontransfer.co.nz>)
 * Copyright (C) 2012 Samuel G. D. Williams.
 * Released under the MIT license.
+* [![Build Status](https://secure.travis-ci.org/ioquatix/latinum.png)](http://travis-ci.org/ioquatix/latinum)
 
 Latinum is a framework for resource and currency calculations.
 
