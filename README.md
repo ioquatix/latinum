@@ -1,15 +1,24 @@
-Latinum
-=======
+# Latinum
 
-* Author: Samuel G. D. Williams (<http://www.oriontransfer.co.nz>)
-* Copyright (C) 2012 Samuel G. D. Williams.
-* Released under the MIT license.
-* [![Build Status](https://secure.travis-ci.org/ioquatix/latinum.png)](http://travis-ci.org/ioquatix/latinum)
+Latinum is a library for resource and currency calculations. It provides immutable `Resource` objects for dealing with quantities of named resources with an arbitrary number of decimal places, and `Bank` objects for converting resources and formatting them for output. Latinum doesn't include any global state by default and thus is ideal for integration with other frameworks/libraries.
 
-Latinum is a framework for resource and currency calculations.
+[![Build Status](https://secure.travis-ci.org/ioquatix/latinum.png)](http://travis-ci.org/ioquatix/latinum)
 
-Basic Usage
------------
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'latinum'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install latinum
+
+## Usage
 
 Latinum has several core concepts:
 
@@ -19,7 +28,7 @@ Latinum has several core concepts:
 - A `Bank` can exchange currencies explicitly with a given set of exchange rates.
 - A `Collection` is responsible for adding currencies together and is completely deterministic.
 
-### Resources and Collections ###
+### Resources and Collections
 
 To create a new resource, use a string for accuracy:
 
@@ -48,7 +57,7 @@ To add multiple currencies together, use a collection:
 	> currencies.collect {|currency| collection[currency]}
 	=> [10.0 NZD, 20.0 AUD]
 
-### Banks and Exchange Rates ###
+### Banks and Exchange Rates
 
 The bank is responsible for formatting and exchange rates:
 
@@ -84,10 +93,17 @@ Currency codes take priority over symbols if specified:
 	> bank.parse("€5 NZD")
 	=> 5.0 NZD
 
-License
--------
+## Contributing
 
-Copyright (c) 2010, 2011 Samuel G. D. Williams. <http://www.oriontransfer.co.nz>
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+## License
+
+Copyright, 2011, 2012, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
