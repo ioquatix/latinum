@@ -83,8 +83,8 @@ module Latinum
 		end
 		
 		def exchange(resource, for_name)
-			rate = @exchange[resource.name][for_name]
-			raise ArgumentError.new("Invalid rate specified #{rate}") if rate == nil
+			rate = @exchange[resource.name][for_name] rescue nil
+			raise ArgumentError.new("Rate #{rate} unavailable") if rate == nil
 			
 			config = self[for_name]
 			
