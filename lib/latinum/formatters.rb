@@ -32,6 +32,14 @@ module Latinum
 			def format(amount)
 				"#{amount.to_s('F')} #{@name}"
 			end
+			
+			def to_integral(amount)
+				amount.to_i
+			end
+			
+			def from_integral(amount)
+				amount.to_d
+			end
 		end
 
 		class DecimalCurrencyFormatter
@@ -68,7 +76,14 @@ module Latinum
 					"#{whole}#{name}"
 				end
 			end
+			
+			def to_integral(amount)
+				(amount * 10**@places).to_i
+			end
+			
+			def from_integral(amount)
+				(amount.to_d / 10**@places)
+			end
 		end
-		
 	end
 end

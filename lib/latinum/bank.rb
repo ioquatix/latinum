@@ -103,7 +103,7 @@ module Latinum
 				if symbol
 					Resource.new(string.gsub(/[^\.0-9]/, ''), symbol.last.to_s)
 				else
-					raise ArgumentError.new("Could not parse #{string}")
+					raise ArgumentError.new("Could not parse #{string}, could not determine currency!")
 				end
 			end
 		end
@@ -113,6 +113,19 @@ module Latinum
 			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
 			
 			formatter.format(resource.amount, *args)
+		end
+		
+		# Convert the resource to an integral representation based on the currency's precision
+		def to_integral(resource)
+			formatter = @formatters[resource.name]
+			
+			formatter.to_integral(resource.amount)
+		end
+		
+		def from_integral(amount, resource_name)
+			formatter = @formatters[resource_name]
+			
+			formatter.from_integral(amount)
 		end
 	end
 end
