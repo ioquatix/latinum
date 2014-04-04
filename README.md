@@ -93,6 +93,20 @@ Currency codes take priority over symbols if specified:
 	> bank.parse("€5 NZD")
 	=> 5.0 NZD
 
+### Conversion To and From Integers
+
+For storage in traditional databases, you may prefer to use integers. Based on the precision of the currency, you can store integer representations:
+
+	> resource = Latinum::Resource.new("1.12345678", "BTC")
+	
+	> 112345678 == bank.to_integral(resource)
+	true
+	
+	> resource == bank.from_integral(112345678, "BTC")
+	true
+
+As BitCoin has 8 decimal places, it requires an integer representation with at least 10^8.
+
 ## Contributing
 
 1. Fork it
