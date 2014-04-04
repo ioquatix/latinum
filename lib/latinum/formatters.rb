@@ -60,7 +60,7 @@ module Latinum
 				sign = amount.sign < 0 ? '-' : ''
 
 				# Decimal places, e.g. the '.00' in '$10.00'
-				frac = frac[0...2].ljust(@places, @zero)
+				frac = frac[0...@places].ljust(@places, @zero)
 
 				# Grouping, e.g. the ',' in '$10,000.00'
 				remainder = fix.size % 3
