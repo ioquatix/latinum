@@ -23,7 +23,7 @@ require 'test/unit'
 require 'latinum'
 require 'latinum/currencies/global'
 
-class BankTest < Test::Unit::TestCase
+class IntegralTest < Test::Unit::TestCase
 	def setup
 		@bank = Latinum::Bank.new(Latinum::Currencies::Global)
 	end
