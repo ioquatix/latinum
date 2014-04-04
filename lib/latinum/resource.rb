@@ -62,7 +62,7 @@ module Latinum
 			self.class.new(exchanged_amount, name)
 		end
 		
-		def to_s(options = {})
+		def to_s
 			@amount.to_s('F') + ' ' + @name.to_s
 		end
 		
