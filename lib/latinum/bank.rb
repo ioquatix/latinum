@@ -125,7 +125,7 @@ module Latinum
 		def from_integral(amount, resource_name)
 			formatter = @formatters[resource_name]
 			
-			formatter.from_integral(amount)
+			Resource.new(formatter.from_integral(amount), resource_name)
 		end
 	end
 end
