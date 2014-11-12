@@ -3,6 +3,7 @@
 Latinum is a library for resource and currency calculations. It provides immutable `Resource` objects for dealing with quantities of named resources with an arbitrary number of decimal places, and `Bank` objects for converting resources and formatting them for output. Latinum doesn't include any global state by default and thus is ideal for integration with other frameworks/libraries.
 
 [![Build Status](https://travis-ci.org/ioquatix/latinum.svg?branch=master)](https://travis-ci.org/ioquatix/latinum)
+[![Code Climate](https://codeclimate.com/github/ioquatix/latinum.png)](https://codeclimate.com/github/ioquatix/latinum)
 
 ## Installation
 
@@ -117,7 +118,7 @@ As BitCoin has 8 decimal places, it requires an integer representation with at l
 
 ## License
 
-Copyright, 2011, 2012, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2011, 2012, 2014, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
