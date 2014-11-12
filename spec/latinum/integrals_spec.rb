@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2014, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,46 +18,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'test/unit'
-
 require 'latinum'
 require 'latinum/currencies/global'
 
-require 'set'
-
-class CollectionTest < Test::Unit::TestCase
-	def setup
-		@bank = Latinum::Bank.new
-		@bank.import(Latinum::Currencies::Global)
-	end
-	
-	def test_collections
-		resource = Latinum::Resource.new("10", "NZD")
+module Latinum::CollectionSpec
+	describe Latinum::Bank do
+		before(:all) do
+			@bank = Latinum::Bank.new
+			@bank.import(Latinum::Currencies::Global)
+		end
 		
-		currencies = Set.new
-		collection = Latinum::Collection.new(currencies)
+		it "should convert to NZD integral value" do
+			resource = Latinum::Resource.new("10", "NZD")
+			
+			expect(@bank.to_integral(resource)).to be == 1000
+			
+			expect(@bank.from_integral(1000, "NZD")).to be == resource
+		end
 		
-		collection << resource
-		assert_equal resource, collection["NZD"]
-		
-		collection << resource
-		assert_equal resource * 2, collection["NZD"]
-	end
-	
-	def test_additions
-		resources = [
-			Latinum::Resource.new("10", "NZD"),
-			Latinum::Resource.new("10", "AUD"),
-			Latinum::Resource.new("10", "USD"),
-			Latinum::Resource.new("10", "NZD"),
-			Latinum::Resource.new("10", "AUD"),
-			Latinum::Resource.new("10", "USD")
-		]
-		
-		collection = Latinum::Collection.new
-		collection << resources
-		
-		assert_equal resources[0] * 2, collection["NZD"]
-		assert_equal Set.new(["NZD", "AUD", "USD"]), collection.names
+		it "should convert to BTC integral value" do
+			resource = Latinum::Resource.new("1.12345678", "BTC")
+			
+			expect(@bank.to_integral(resource)).to be == 112345678
+			
+			expect(@bank.from_integral(112345678, "BTC")).to be == resource
+		end
 	end
 end

@@ -1,4 +1,4 @@
-# Copyright, 2014, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,29 +18,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'test/unit'
-
 require 'latinum'
 require 'latinum/currencies/global'
 
-class IntegralTest < Test::Unit::TestCase
-	def setup
-		@bank = Latinum::Bank.new(Latinum::Currencies::Global)
-	end
-	
-	def test_nzd_integral
-		resource = Latinum::Resource.new("10", "NZD")
+require 'set'
+
+module Latinum::CollectionSpec
+	describe Latinum::Bank do
+		before(:all) do
+			@bank = Latinum::Bank.new
+			@bank.import(Latinum::Currencies::Global)
+		end
 		
-		assert_equal 1000, @bank.to_integral(resource)
+		it "should sum up currencies correctly" do
+			resource = Latinum::Resource.new("10", "NZD")
+			
+			currencies = Set.new
+			collection = Latinum::Collection.new(currencies)
+			
+			collection << resource
+			expect(collection["NZD"]).to be == resource
+			
+			collection << resource
+			expect(collection["NZD"]).to be == (resource * 2)
+		end
 		
-		assert_equal resource, @bank.from_integral(1000, "NZD")
-	end
-	
-	def test_btc_integral
-		resource = Latinum::Resource.new("1.12345678", "BTC")
-		
-		assert_equal 112345678, @bank.to_integral(resource)
-		
-		assert_equal resource, @bank.from_integral(112345678, "BTC")
+		it "should sum up multiple currencies correctly" do
+			resources = [
+				Latinum::Resource.new("10", "NZD"),
+				Latinum::Resource.new("10", "AUD"),
+				Latinum::Resource.new("10", "USD"),
+				Latinum::Resource.new("10", "NZD"),
+				Latinum::Resource.new("10", "AUD"),
+				Latinum::Resource.new("10", "USD")
+			]
+			
+			collection = Latinum::Collection.new
+			collection << resources
+			
+			expect(collection["NZD"]).to be == (resources[0] * 2)
+			expect(collection.names).to be == Set.new(["NZD", "AUD", "USD"])
+		end
 	end
 end
