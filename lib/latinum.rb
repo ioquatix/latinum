@@ -24,7 +24,3 @@ require 'latinum/collection'
 
 require 'bigdecimal'
 require 'bigdecimal/util'
-
-if RUBY_VERSION < "1.9.3"
-	require 'latinum/extensions/bigdecimal-1.8'
-end
