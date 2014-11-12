@@ -54,6 +54,9 @@ module Latinum
 			end
 
 			def format(amount, options = DEFAULT_OPTIONS)
+				# Round to the desired number of places. Truncation used to be the default.
+				amount = amount.round(@places)
+				
 				fix, frac = amount.abs.to_s('F').split(/\./, 2)
 
 				# The sign of the number
