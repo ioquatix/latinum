@@ -81,10 +81,12 @@ module Latinum
 				self.new(amount, name || default_name)
 			end
 			
-			alias load parse
+			def load(string)
+				parse(string) if string
+			end
 			
 			def dump(resource)
-				resource.to_s
+				resource.to_s if resource
 			end
 		end
 		

@@ -35,5 +35,10 @@ module Latinum::ResourceSpec
 			
 			expect(loaded_resource).to be == loaded_resource
 		end
+		
+		it "should load and dump nil correctly" do
+			expect(Latinum::Resource.load(nil)).to be nil
+			expect(Latinum::Resource.dump(nil)).to be nil
+		end
 	end
 end

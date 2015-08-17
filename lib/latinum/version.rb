@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2015, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,5 +19,5 @@
 # THE SOFTWARE.
 
 module Latinum
-	VERSION = "0.5.0"
+	VERSION = "0.5.1"
 end
