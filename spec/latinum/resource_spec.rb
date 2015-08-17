@@ -18,46 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'latinum'
-require 'latinum/currencies/global'
+require 'latinum/resource'
 
-require 'set'
-
-module Latinum::CollectionSpec
-	describe Latinum::Bank do
+module Latinum::ResourceSpec
+	describe Latinum::Resource do
 		before(:all) do
 			@bank = Latinum::Bank.new
 			@bank.import(Latinum::Currencies::Global)
 		end
 		
-		it "should sum up currencies correctly" do
-			resource = Latinum::Resource.new("10", "NZD")
+		it "should load and dump resources" do
+			resource = Latinum::Resource.load("10 NZD")
+			string_representation = Latinum::Resource.dump(resource)
 			
-			currencies = Set.new
-			collection = Latinum::Collection.new(currencies)
+			loaded_resource = Latinum::Resource.load(string_representation)
 			
-			collection << resource
-			expect(collection["NZD"]).to be == resource
-			
-			collection << resource
-			expect(collection["NZD"]).to be == (resource * 2)
-		end
-		
-		it "should sum up multiple currencies correctly" do
-			resources = [
-				Latinum::Resource.new("10", "NZD"),
-				Latinum::Resource.new("10", "AUD"),
-				Latinum::Resource.new("10", "USD"),
-				Latinum::Resource.new("10", "NZD"),
-				Latinum::Resource.new("10", "AUD"),
-				Latinum::Resource.new("10", "USD")
-			]
-			
-			collection = Latinum::Collection.new
-			collection << resources
-			
-			expect(collection["NZD"]).to be == (resources[0] * 2)
-			expect(collection.names).to be == Set.new(["NZD", "AUD", "USD"])
+			expect(loaded_resource).to be == loaded_resource
 		end
 	end
 end

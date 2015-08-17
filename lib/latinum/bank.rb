@@ -33,7 +33,9 @@ module Latinum
 		attr :factor
 	end
 	
+	# A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource related state.
 	class Bank
+		# Imports all given currencies.
 		def initialize(*imports)
 			@rates = []
 			@exchange = {}
@@ -50,6 +52,7 @@ module Latinum
 			end
 		end
 		
+		# Import a list of resource templates, e.g. currencies.
 		def import(resources)
 			resources.each do |name, config|
 				name = (config[:name] || name).to_s
@@ -67,6 +70,7 @@ module Latinum
 			end
 		end
 		
+		# Look up a currency by name.
 		def [] name
 			@currencies[name]
 		end
@@ -75,6 +79,7 @@ module Latinum
 		attr :symbols
 		attr :currencies
 		
+		# Add an exchange rate to the bank.
 		def << rate
 			@rates << rate
 			
@@ -82,6 +87,7 @@ module Latinum
 			@exchange[rate.input][rate.output] = rate
 		end
 		
+		# Exchange one resource for another using internally specified rates.
 		def exchange(resource, for_name)
 			rate = @exchange[resource.name][for_name] rescue nil
 			raise ArgumentError.new("Rate #{rate} unavailable") if rate == nil
@@ -91,14 +97,15 @@ module Latinum
 			resource.exchange(rate.factor, for_name, config[:precision])
 		end
 		
-		def parse(string)
+		# Parse a string according to the loaded currencies.
+		def parse(string, default_name: nil)
 			parts = string.strip.split(/\s+/, 2)
 			
 			if parts.size == 2
 				Resource.new(parts[0].gsub(/[^\.0-9]/, ''), parts[1])
 			else
 				# Lookup the named symbol, e.g. '$', and get the highest priority name:
-				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last
+				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last || default_name
 				
 				if symbol
 					Resource.new(string.gsub(/[^\.0-9]/, ''), symbol.last.to_s)
@@ -108,6 +115,7 @@ module Latinum
 			end
 		end
 		
+		# Format a resource as a string according to the loaded currencies.
 		def format(resource, *args)
 			formatter = @formatters[resource.name]
 			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
@@ -115,13 +123,14 @@ module Latinum
 			formatter.format(resource.amount, *args)
 		end
 		
-		# Convert the resource to an integral representation based on the currency's precision
+		# Convert the resource to an integral representation based on the currency's precision.
 		def to_integral(resource)
 			formatter = @formatters[resource.name]
 			
 			formatter.to_integral(resource.amount)
 		end
 		
+		# Convert the resource from an integral representation based on the currency's precision.
 		def from_integral(amount, resource_name)
 			formatter = @formatters[resource_name]
 			

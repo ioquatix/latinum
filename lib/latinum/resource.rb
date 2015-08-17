@@ -74,8 +74,18 @@ module Latinum
 			end
 		end
 		
-		def self.parse(string)
-			self.new *string.split(/\s+/, 2)
+		class << self
+			def parse(string, default_name: nil)
+				amount, name = string.split(/\s+/, 2)
+				
+				self.new(amount, name || default_name)
+			end
+			
+			alias load parse
+			
+			def dump(resource)
+				resource.to_s
+			end
 		end
 		
 		def zero?

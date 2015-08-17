@@ -22,19 +22,26 @@ require 'bigdecimal'
 require 'set'
 
 module Latinum
+	# Aggregates a set of resources, typically used for summing values.
 	class Collection
+		# Initialize the collection with a given set of resource names.
 		def initialize(names = Set.new)
 			@names = names
 			@resources = Hash.new {|hash, key| @names << key; BigDecimal.new("0")}
 		end
 		
+		# All resource names which have been added to the collection, e.g. `['NZD', 'USD']`.
 		attr :names
+		
+		# A map of `name` => `total` for all added resources. Totals are stored as BigDecimal instances.
 		attr :resources
 		
+		# Add a resource into the totals.
 		def add resource
 			@resources[resource.name] += resource.amount
 		end
 		
+		# Add a resource, an array of resources, or another collection into this one.
 		def << object
 			case object
 			when Resource
@@ -48,21 +55,12 @@ module Latinum
 			return self
 		end
 		
-		def others
-			self.dup
-			
-			case others
-			when Array
-				others.each { |resource| self << resource }
-			when Collection
-				
-			end
-		end
-		
+		# Get a `Resource` for the given name:
 		def [] key
 			Resource.new(@resources[key], key)
 		end
 		
+		# Set a `BigDecimal` value for the given name:
 		def []= key, amount
 			@resources[key] = amount
 		end
