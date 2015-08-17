@@ -118,7 +118,7 @@ As BitCoin has 8 decimal places, it requires an integer representation with at l
 
 ## License
 
-Copyright, 2011, 2012, 2014, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2015, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
