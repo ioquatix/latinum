@@ -40,5 +40,11 @@ module Latinum::ResourceSpec
 			expect(Latinum::Resource.load(nil)).to be nil
 			expect(Latinum::Resource.dump(nil)).to be nil
 		end
+		
+		it "should inspect nicely" do
+			resource = Latinum::Resource.load("10 NZD")
+			
+			expect(resource.inspect).to be == '#<Latinum::Resource "10.0 NZD">'
+		end
 	end
 end

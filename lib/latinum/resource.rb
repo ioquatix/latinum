@@ -67,7 +67,7 @@ module Latinum
 		end
 		
 		def inspect
-			"<#{self.class.name} #{self.to_s.dump}>"
+			"#<#{self.class.name} #{self.to_s.dump}>"
 		end
 		
 		def <=> other
