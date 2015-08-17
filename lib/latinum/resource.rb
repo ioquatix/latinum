@@ -66,6 +66,10 @@ module Latinum
 			@amount.to_s('F') + ' ' + @name.to_s
 		end
 		
+		def inspect
+			"<#{self.class.name} #{self.to_s.dump}>"
+		end
+		
 		def <=> other
 			if @name == other.name
 				@amount <=> other.amount
