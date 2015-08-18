@@ -1,5 +1,3 @@
-# encoding: UTF-8
-#
 # Copyright, 2015, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,53 +18,41 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'latinum'
+require 'latinum/bank'
 require 'latinum/currencies/global'
+require 'latinum/formatters'
 
-module Latinum::BankSpec
-	describe Latinum::Bank do
+module Latinum::FormattersSpec
+	describe Latinum::Formatters::DecimalCurrencyFormatter do
 		before(:all) do
 			@bank = Latinum::Bank.new
 			@bank.import(Latinum::Currencies::Global)
-			
-			@bank << Latinum::ExchangeRate.new("NZD", "AUD", "0.5")
 		end
 		
-		it "should format the amounts correctly" do
-			resource = Latinum::Resource.new("10", "NZD")
-			
+		let(:resource) {Latinum::Resource.load("10 NZD")}
+		
+		it "should format output" do
 			expect(@bank.format(resource)).to be == "$10.00 NZD"
+		end
+		
+		it "should format output without name" do
 			expect(@bank.format(resource, name: nil)).to be == "$10.00"
-			
-			resource = Latinum::Resource.new("391", "AUD")
-			expect(@bank.format(resource)).to be == "$391.00 AUD"
-			
-			resource = Latinum::Resource.new("-100", "NZD")
-			expect(@bank.format(resource)).to be == "-$100.00 NZD"
-			
-			resource = Latinum::Resource.new("1.12345678", "BTC")
-			expect(@bank.format(resource)).to be == "B⃦1.12345678 BTC"
 		end
 		
-		it "should round values when formatting" do
-			resource = Latinum::Resource.new("19.9989", "NZD")
-			
-			expect(@bank.format(resource)).to be == "$20.00 NZD"
+		it "should format output with alternative name" do
+			expect(@bank.format(resource, name: "Foo")).to be == "$10.00 Foo"
 		end
 		
-		it "should exchange currencies from NZD to AUD" do
-			nzd = Latinum::Resource.new("10", "NZD")
-			
-			aud = @bank.exchange nzd, "AUD"
-			expect(aud).to be == Latinum::Resource.new("5", "AUD")
+		it "should format output" do
+			expect(@bank.format(resource)).to be == "$10.00 NZD"
 		end
 		
-		it "should parser strings into resources" do
-			expect(@bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
-			expect(@bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
-			expect(@bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
-			
-			expect(@bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
+		it "should format output without symbol" do
+			expect(@bank.format(resource, symbol: nil)).to be == "10.00 NZD"
+		end
+		
+		it "should format output with alternative symbol" do
+			expect(@bank.format(resource, symbol: "!!")).to be == "!!10.00 NZD"
 		end
 	end
 end

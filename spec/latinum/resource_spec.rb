@@ -22,11 +22,6 @@ require 'latinum/resource'
 
 module Latinum::ResourceSpec
 	describe Latinum::Resource do
-		before(:all) do
-			@bank = Latinum::Bank.new
-			@bank.import(Latinum::Currencies::Global)
-		end
-		
 		it "should load and dump resources" do
 			resource = Latinum::Resource.load("10 NZD")
 			string_representation = Latinum::Resource.dump(resource)
@@ -39,6 +34,13 @@ module Latinum::ResourceSpec
 		it "should load and dump nil correctly" do
 			expect(Latinum::Resource.load(nil)).to be nil
 			expect(Latinum::Resource.dump(nil)).to be nil
+		end
+		
+		it "should load and dump resources correctly" do
+			resource = Latinum::Resource.new(10, 'NZD')
+			
+			expect(Latinum::Resource.load("10.0 NZD")).to be == resource
+			expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
 		end
 		
 		it "should inspect nicely" do

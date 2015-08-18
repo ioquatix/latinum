@@ -22,5 +22,3 @@ require 'latinum/bank'
 require 'latinum/resource'
 require 'latinum/collection'
 
-require 'bigdecimal'
-require 'bigdecimal/util'

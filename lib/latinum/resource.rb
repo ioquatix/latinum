@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require 'bigdecimal'
+require 'bigdecimal/util'
 
 module Latinum
 	# A fixed unit in a given named resource
@@ -82,7 +83,7 @@ module Latinum
 			def parse(string, default_name: nil)
 				amount, name = string.split(/\s+/, 2)
 				
-				self.new(BigDecimal.new(amount), name || default_name)
+				self.new(amount, name || default_name)
 			end
 			
 			def load(string)
