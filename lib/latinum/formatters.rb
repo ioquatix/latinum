@@ -70,13 +70,16 @@ module Latinum
 				groups = fix[remainder..-1].scan(/.{3}/).to_a
 				groups.unshift(fix[0...remainder]) if remainder > 0
 
-				whole = "#{sign}#{@symbol}#{groups.join(@delimeter)}"
-				name = (@name && options[:format] == :full) ? " #{@name}" : ''
+				symbol = options.fetch(:symbol, @symbol)
+				value = "#{sign}#{symbol}#{groups.join(@delimeter)}"
+
+				name = options.fetch(:name, @name)
+				suffix = name ? " #{name}" : ''
 
 				if @places > 0
-					"#{whole}#{@separator}#{frac}#{name}"
+					"#{value}#{@separator}#{frac}#{suffix}"
 				else
-					"#{whole}#{name}"
+					"#{value}#{suffix}"
 				end
 			end
 			

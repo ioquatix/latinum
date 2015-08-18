@@ -82,7 +82,7 @@ module Latinum
 			def parse(string, default_name: nil)
 				amount, name = string.split(/\s+/, 2)
 				
-				self.new(amount, name || default_name)
+				self.new(BigDecimal.new(amount), name || default_name)
 			end
 			
 			def load(string)
