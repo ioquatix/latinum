@@ -22,6 +22,12 @@ require 'bigdecimal'
 require 'bigdecimal/util'
 
 module Latinum
+	class DifferentResourceNameError < ArgumentError
+		def initialize
+			super "Cannot operate on different currencies!"
+		end
+	end
+	
 	# A fixed unit in a given named resource
 	class Resource
 		include Comparable
@@ -36,13 +42,13 @@ module Latinum
 		
 		# By default, we can only add and subtract if the name is the same
 		def + other
-			raise ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
+			raise DifferentResourceNameError if @name != other.name
 			
 			self.class.new(@amount + other.amount, @name)
 		end
 		
 		def - other
-			raise ArgumentError.new("Cannot operate on different currencies!") if @name != other.name
+			raise DifferentResourceNameError if @name != other.name
 			
 			self.class.new(@amount - other.amount, @name)
 		end
@@ -55,7 +61,19 @@ module Latinum
 			self.class.new(@amount * factor, @name)
 		end
 		
+		def / factor
+			if factor.is_a? self.class
+				raise DifferentResourceNameError if @name != factor.name
+				
+				@amount / factor.amount
+			else
+				self.class.new(@amount / factor, @name)
+			end
+		end
+		
 		def exchange(rate, name, precision = nil)
+			return self if @name == name
+			
 			exchanged_amount = @amount * rate
 			
 			exchanged_amount = exchanged_amount.round(precision) if precision
@@ -77,6 +95,14 @@ module Latinum
 			else
 				@name <=> other.name
 			end
+		end
+		
+		def hash
+			[@amount, @name].hash
+		end
+		
+		def eql? other
+			self.class.eql? other.class and @name.eql? other.name and @amount.eql? other.amount
 		end
 		
 		class << self

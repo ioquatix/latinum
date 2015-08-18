@@ -48,7 +48,7 @@ But, you can't add resources of different names together:
 	> twenty = Latinum::Resource.new("20.00", "AUD")
 	=> 20.0 AUD
 	> ten + twenty
-	ArgumentError: Cannot operate on different currencies!
+	DifferentResourceNameError: Cannot operate on different currencies!
 
 To add multiple currencies together, use a collection:
 

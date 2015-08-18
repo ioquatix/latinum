@@ -48,5 +48,29 @@ module Latinum::ResourceSpec
 			
 			expect(resource.inspect).to be == '#<Latinum::Resource "10.0 NZD">'
 		end
+		
+		it "should compute percentage difference" do
+			original_price = Latinum::Resource.load("10 NZD")
+			discount_price = Latinum::Resource.load("5 NZD")
+			
+			discount = (original_price - discount_price) / original_price
+			
+			expect(discount).to be == 0.5
+		end
+		
+		it "should not divide" do
+			original_price = Latinum::Resource.load("10 NZD")
+			discount_price = Latinum::Resource.load("5 USD")
+			
+			expect{original_price / discount_price}.to raise_exception(Latinum::DifferentResourceNameError)
+		end
+		
+		it "should compute quotient" do
+			original_price = Latinum::Resource.load("10 NZD")
+			
+			quotient = original_price / 2.0
+			
+			expect(original_price / 2.0).to be == Latinum::Resource.load("5 NZD")
+		end
 	end
 end
