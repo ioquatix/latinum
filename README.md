@@ -168,7 +168,7 @@ As BitCoin has 8 decimal places, it requires an integer representation with at l
 
 ### ActiveRecord Serialization
 
-Latinum can be easily used in a ActiveRecord model simply by declaring a serialized data-type for a string or text column, e.g.
+Latinum can be easily used in a [ActiveRecord](https://github.com/rails/rails/tree/master/activerecord) model simply by declaring a serialized data-type for a string or text column, e.g.
 
 	class Transaction < ActiveRecord::Base
 		serialize :total, Latinum::Resource
