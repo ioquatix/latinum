@@ -9,15 +9,15 @@ Latinum is a library for resource and currency calculations. It provides immutab
 
 Add this line to your application's Gemfile:
 
-    gem 'latinum'
+	gem 'latinum'
 
 And then execute:
 
-    $ bundle
+	$ bundle
 
 Or install it yourself as:
 
-    $ gem install latinum
+	$ gem install latinum
 
 ## Usage
 
@@ -57,6 +57,64 @@ To add multiple currencies together, use a collection:
 	> collection << [ten, twenty]
 	> currencies.collect {|currency| collection[currency]}
 	=> [10.0 NZD, 20.0 AUD]
+
+#### Calculating Totals
+
+The `Latinum::Collection` is the correct way to sum up a list of transactions or other items with an
+associated `Latinum::Resource`. Here is an example:
+
+	<table class="listing transactions" data-model="Transaction">
+		<thead>
+			<tr>
+				<th class="name">Name</th>
+				<th class="date">Date</th>
+				<th class="price">Price</th>
+				<th class="quantity">Quantity</th>
+				<th class="subtotal">Sub-total</th>
+				<th class="tax_rate">Tax</th>
+				<th class="total">Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?r 
+				currencies = Set.new
+				
+				summary = {
+					:subtotal => Latinum::Collection.new(currencies),
+					:tax => Latinum::Collection.new(currencies),
+					:total => Latinum::Collection.new(currencies)
+				}
+				
+				invoice.transactions.each do |transaction|
+					subtotal = transaction.subtotal
+					summary[:subtotal] << subtotal
+					summary[:tax] << subtotal * transaction.tax_rate.to_d
+					summary[:total] << transaction.total
+				
+			?>
+			<tr data-id="#{transaction.id}" data-rev="#{transaction.rev}">
+				<th class="name">#{f.text transaction.name}</th>
+				<td class="date">#{f.text transaction.date}</td>
+				<td class="price">#{f.text transaction.price}</td>
+				<td class="quantity">#{f.quantity transaction}</td>
+				<td class="subtotal">#{f.text subtotal}</td>
+				<td class="tax_rate">#{f.tax transaction}</td>
+				<td class="total">#{f.text transaction.total}</td>
+			</tr>
+			<?r end ?>
+		</tbody>
+		<tfoot>
+			<?r currencies.each do |currency| ?>
+			<tr>
+				<td colspan="5">#{currency} Summary:</td>
+				<td class="subtotal">#{f.text summary[:subtotal][currency]}</td>
+				<td class="tax_rate">#{f.text summary[:tax][currency]}</td>
+				<td class="total">#{f.text summary[:total][currency]}</td>
+				<td></td>
+			</tr>
+			<?r end ?>
+		</tfoot>
+	</table>
 
 ### Banks and Exchange Rates
 
