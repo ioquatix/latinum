@@ -166,6 +166,31 @@ For storage in traditional databases, you may prefer to use integers. Based on t
 
 As BitCoin has 8 decimal places, it requires an integer representation with at least 10^8.
 
+### ActiveRecord Serialization
+
+Latinum can be easily used in a ActiveRecord model simply by declaring a serialized data-type for a string or text column, e.g.
+
+	class Transaction < ActiveRecord::Base
+		serialize :total, Latinum::Resource
+	end
+
+It can be used like so:
+
+	> transaction = Transaction.new(:total => "10 NZD")
+	> transaction.total * 2
+	=> "20.0 NZD"
+
+To format the output, use a `Latinum::Bank`, e.g. assuming the bank is set up correctly:
+
+	> bank.format(transaction.total)
+	=> "$20.00 NZD"
+	
+	> bank.format(transaction.total, name: nil)
+	=> "$20.00"
+	
+	> bank.format(transaction.total, symbol: nil)
+	=> "20.00 NZD"
+
 ## Contributing
 
 1. Fork it
