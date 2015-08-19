@@ -72,5 +72,14 @@ module Latinum::ResourceSpec
 			
 			expect(original_price / 2.0).to be == Latinum::Resource.load("5 NZD")
 		end
+		
+		it "should compare with nil" do
+			a = Latinum::Resource.load("10 NZD")
+			
+			expect{a <=> nil}.to_not raise_exception
+			expect{a == nil}.to_not raise_exception
+			expect(a <=> nil).to be == nil
+			expect(a == nil).to be == false
+		end
 	end
 end

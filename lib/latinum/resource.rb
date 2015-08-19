@@ -90,6 +90,7 @@ module Latinum
 		end
 		
 		def <=> other
+			return unless other.respond_to?(:name) and other.respond_to?(:amount)
 			if @name == other.name
 				@amount <=> other.amount
 			else
