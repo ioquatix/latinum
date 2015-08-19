@@ -193,7 +193,7 @@ To format the output, use a `Latinum::Bank`, e.g. assuming the bank is set up co
 
 ### Relaxo Serialization
 
-Latinum is natively supported by Relaxo and as such can be used in Relaxo models easily.
+Latinum is natively supported by [Relaxo](https://github.com/ioquatix/relaxo) (CouchDB) and as such can be used in [Relaxo models](https://github.com/ioquatix/relaxo-model) easily.
 
 	require 'latinum'
 	require 'relaxo/model'
