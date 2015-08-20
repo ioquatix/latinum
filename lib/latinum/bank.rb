@@ -115,6 +115,13 @@ module Latinum
 			end
 		end
 		
+		def round(resource)
+			formatter = @formatters[resource.name]
+			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
+			
+			Latinum::Resource.new(formatter.round(resource.amount), resource.name)
+		end
+		
 		# Format a resource as a string according to the loaded currencies.
 		def format(resource, *args)
 			formatter = @formatters[resource.name]

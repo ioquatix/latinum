@@ -48,6 +48,18 @@ module Latinum::BankSpec
 			expect(@bank.format(resource)).to be == "B⃦1.12345678 BTC"
 		end
 		
+		it "should round up using correct precision" do
+			resource = Latinum::Resource.new("19.9989", "NZD")
+			
+			expect(@bank.round(resource)).to be == Latinum::Resource.new(20, "NZD")
+		end
+		
+		it "should round down using correct precision" do
+			resource = Latinum::Resource.new("19.991", "NZD")
+			
+			expect(@bank.round(resource)).to be == Latinum::Resource.new("19.99", "NZD")
+		end
+		
 		it "should round values when formatting" do
 			resource = Latinum::Resource.new("19.9989", "NZD")
 			

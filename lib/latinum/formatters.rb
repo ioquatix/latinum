@@ -53,6 +53,10 @@ module Latinum
 				@name = options[:name]
 			end
 
+			def round(amount)
+				return amount.round(@places)
+			end
+
 			def format(amount, options = DEFAULT_OPTIONS)
 				# Round to the desired number of places. Truncation used to be the default.
 				amount = amount.round(@places)
