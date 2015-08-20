@@ -19,5 +19,5 @@
 # THE SOFTWARE.
 
 module Latinum
-	VERSION = "0.5.6"
+	VERSION = "0.6.0"
 end
