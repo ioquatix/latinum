@@ -18,6 +18,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-module Latinum
-	VERSION = "0.7.0"
+require 'latinum/resource'
+
+module Latinum::ComparisonSpec
+	describe Latinum::Resource do
+		it "should be comparable to numeric values" do
+			resource = Latinum::Resource.load("10 NZD")
+			
+			expect(resource).to be < 20
+			expect(resource).to be > 5
+			expect(resource).to be == 10
+		end
+		
+		it "should compare with nil" do
+			a = Latinum::Resource.load("10 NZD")
+			
+			expect{a <=> nil}.to_not raise_exception
+			expect{a == nil}.to_not raise_exception
+			expect(a <=> nil).to be == nil
+			expect(a == nil).to be == false
+		end
+	end
 end

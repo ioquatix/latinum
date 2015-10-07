@@ -89,13 +89,16 @@ module Latinum
 			"#<#{self.class.name} #{self.to_s.dump}>"
 		end
 		
+		# Compare with another resource or a Numeric value.
 		def <=> other
-			return nil unless other and other.is_a? self.class
-			
-			if @name == other.name
-				@amount <=> other.amount
-			else
-				@name <=> other.name
+			if other.is_a? self.class
+				result = @amount <=> other.amount
+				return result unless result == 0
+
+				result = @name <=> other.name
+				return result
+			elsif other.is_a? Numeric
+				@amount <=> other
 			end
 		end
 		
