@@ -118,7 +118,12 @@ module Latinum
 			end
 			
 			def load(string)
-				parse(string) if string
+				if string
+					# Remove any whitespaces
+					string = string.strip
+					
+					parse(string) unless string.empty?
+				end
 			end
 			
 			def dump(resource)

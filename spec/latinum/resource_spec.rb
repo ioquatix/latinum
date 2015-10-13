@@ -36,6 +36,14 @@ module Latinum::ResourceSpec
 			expect(Latinum::Resource.dump(nil)).to be nil
 		end
 		
+		it "should handle empty strings correctly" do
+			expect(Latinum::Resource.load("")).to be nil
+		end
+		
+		it "should handle whitespace strings correctly" do
+			expect(Latinum::Resource.load(" ")).to be nil
+		end
+		
 		it "should load and dump resources correctly" do
 			resource = Latinum::Resource.new(10, 'NZD')
 			
