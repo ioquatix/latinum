@@ -78,5 +78,55 @@ module Latinum::ResourceSpec
 			
 			expect(original_price / 2.0).to be == Latinum::Resource.load("5 NZD")
 		end
+		
+		it "should add two resources of the same symbol" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("5 NZD")
+			c = Latinum::Resource.load("15 NZD")
+			
+			expect(a+b).to be == c
+		end
+		
+		it "should fail two resources of different symbol" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("5 USD")
+			
+			expect{a+b}.to raise_error(Latinum::DifferentResourceNameError)
+		end
+		
+		it "should be able to negate a value" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("-10 NZD")
+			
+			expect(-a).to be == b
+		end
+		
+		it "can be used as a hash key" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("0 NZD")
+			
+			hash = {a => true}
+			
+			expect(hash).to be_include a
+			expect(hash).to_not be_include b
+		end
+		
+		it "can be zero" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("0 NZD")
+			
+			expect(a).to_not be_zero
+			expect(b).to be_zero
+		end
+		
+		it "can be eql?" do
+			a = Latinum::Resource.load("10 NZD")
+			b = Latinum::Resource.load("0 NZD")
+			c = Latinum::Resource.load("0 NZD")
+			
+			expect(a).to be_eql a
+			expect(a).to_not be_eql b
+			expect(b).to be_eql c
+		end
 	end
 end

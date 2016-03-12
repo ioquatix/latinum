@@ -26,8 +26,7 @@ require 'latinum/currencies/global'
 module Latinum::BankSpec
 	describe Latinum::Bank do
 		before(:all) do
-			@bank = Latinum::Bank.new
-			@bank.import(Latinum::Currencies::Global)
+			@bank = Latinum::Bank.new(Latinum::Currencies::Global)
 			
 			@bank << Latinum::ExchangeRate.new("NZD", "AUD", "0.5")
 		end
@@ -79,6 +78,10 @@ module Latinum::BankSpec
 			expect(@bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
 			
 			expect(@bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
+		end
+		
+		it "should fail to parse unknown resource" do
+			expect{@bank.parse("B5")}.to raise_error(ArgumentError)
 		end
 	end
 end
