@@ -76,8 +76,6 @@ module Latinum::ResourceSpec
 		it "should compute quotient" do
 			original_price = Latinum::Resource.load("10 NZD")
 			
-			quotient = original_price / 2.0
-			
 			expect(original_price / 2.0).to be == Latinum::Resource.load("5 NZD")
 		end
 	end

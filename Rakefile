@@ -1,9 +1,14 @@
 require "bundler/gem_tasks"
-require "rake/testtask"
+require "rspec/core/rake_task"
 
-Rake::TestTask.new do |t|
-	t.libs << 'test'
+RSpec::Core::RakeTask.new(:spec) do |task|
+	if ENV['COVERAGE']
+		begin
+			require('simplecov/version')
+			task.rspec_opts = %w{--require simplecov}
+		rescue LoadError
+		end
+	end
 end
 
-desc "Run tests"
-task :default => :test
+task :default => :spec

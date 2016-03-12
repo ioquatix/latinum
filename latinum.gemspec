@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
 	spec.authors       = ["Samuel Williams"]
 	spec.email         = ["samuel.williams@oriontransfer.co.nz"]
 	spec.summary       = %q{Latinum is a simple gem for managing resource computations, including money and minerals.}
-	spec.homepage      = ""
+	spec.homepage      = "https://github.com/ioquatix/latinum"
 	spec.license       = "MIT"
 
 	spec.files         = `git ls-files`.split($/)
@@ -18,6 +18,6 @@ Gem::Specification.new do |spec|
 	spec.require_paths = ["lib"]
 
 	spec.add_development_dependency "bundler", "~> 1.3"
-	spec.add_development_dependency "rspec", "~> 3.1.0"
+	spec.add_development_dependency "rspec", "~> 3.4.0"
 	spec.add_development_dependency "rake"
 end
