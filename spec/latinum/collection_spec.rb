@@ -24,23 +24,21 @@ require 'latinum/currencies/global'
 require 'set'
 
 module Latinum::CollectionSpec
-	describe Latinum::Bank do
-		before(:all) do
-			@bank = Latinum::Bank.new
-			@bank.import(Latinum::Currencies::Global)
+	describe Latinum::Collection do
+		it "can set an initial value" do
+			subject["NZD"] = BigDecimal.new("20")
+			
+			expect(subject["NZD"]).to be == Latinum::Resource.load("20 NZD")
 		end
 		
 		it "should sum up currencies correctly" do
 			resource = Latinum::Resource.new("10", "NZD")
 			
-			currencies = Set.new
-			collection = Latinum::Collection.new(currencies)
+			subject << resource
+			expect(subject["NZD"]).to be == resource
 			
-			collection << resource
-			expect(collection["NZD"]).to be == resource
-			
-			collection << resource
-			expect(collection["NZD"]).to be == (resource * 2)
+			subject << resource
+			expect(subject["NZD"]).to be == (resource * 2)
 		end
 		
 		it "should sum up multiple currencies correctly" do
@@ -50,14 +48,38 @@ module Latinum::CollectionSpec
 				Latinum::Resource.new("10", "USD"),
 				Latinum::Resource.new("10", "NZD"),
 				Latinum::Resource.new("10", "AUD"),
-				Latinum::Resource.new("10", "USD")
+				Latinum::Resource.new("10", "USD"),
 			]
 			
-			collection = Latinum::Collection.new
-			collection << resources
+			subject = Latinum::Collection.new
+			subject << resources
 			
-			expect(collection["NZD"]).to be == (resources[0] * 2)
-			expect(collection.names).to be == Set.new(["NZD", "AUD", "USD"])
+			expect(subject["NZD"]).to be == (resources[0] * 2)
+			expect(subject.names).to be == Set.new(["NZD", "AUD", "USD"])
+		end
+		
+		it "can add two collections together" do
+			other_resources = [
+				Latinum::Resource.new("10", "NZD"),
+				Latinum::Resource.new("10", "AUD"),
+				Latinum::Resource.new("10", "USD"),
+			]
+			
+			other_collection = Latinum::Collection.new
+			other_collection << other_resources
+			
+			resources = [
+				Latinum::Resource.new("10", "NZD"),
+				Latinum::Resource.new("10", "AUD"),
+				Latinum::Resource.new("10", "USD"),
+			]
+			
+			subject << resources
+			subject << other_collection
+			
+			expect(subject["NZD"]).to be == Latinum::Resource.load("20 NZD")
+			expect(subject["AUD"]).to be == Latinum::Resource.load("20 AUD")
+			expect(subject["USD"]).to be == Latinum::Resource.load("20 USD")
 		end
 	end
 end
