@@ -25,8 +25,8 @@ module Latinum
 		}
 		
 		class PlainFormatter
-			def initialize(options = {})
-				@name = options[:name]
+			def initialize(name:)
+				@name = name
 			end
 			
 			def format(amount)

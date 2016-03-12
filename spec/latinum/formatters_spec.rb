@@ -23,6 +23,22 @@ require 'latinum/currencies/global'
 require 'latinum/formatters'
 
 module Latinum::FormattersSpec
+	describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
+		let(:amount) {BigDecimal.new(10)}
+		
+		it "can convert to integral" do
+			expect(subject.to_integral(amount)).to be == 10
+		end
+		
+		it "can convert from integral" do
+			expect(subject.from_integral(10)).to be == amount
+		end
+		
+		it "can do basic formatting" do
+			expect(subject.format(amount)).to be == "10.0 NZD"
+		end
+	end
+	
 	describe Latinum::Formatters::DecimalCurrencyFormatter do
 		before(:all) do
 			@bank = Latinum::Bank.new
@@ -53,6 +69,19 @@ module Latinum::FormattersSpec
 		
 		it "should format output with alternative symbol" do
 			expect(@bank.format(resource, symbol: "!!")).to be == "!!10.00 NZD"
+		end
+	end
+	
+	describe Latinum::Formatters::DecimalCurrencyFormatter do
+		before(:all) do
+			@bank = Latinum::Bank.new
+			@bank.import(Latinum::Currencies::Global)
+		end
+		
+		let(:resource) {Latinum::Resource.load("10 JPY")}
+		
+		it "should format without separator or fractional part" do
+			expect(@bank.format(resource)).to be == "¥10 JPY"
 		end
 	end
 end
