@@ -64,5 +64,13 @@ module Latinum
 		def []= key, amount
 			@resources[key] = amount
 		end
+		
+		def each
+			return to_enum(:each) unless block_given?
+			
+			@resources.each do |key, value|
+				yield Resource.new(value, key)
+			end
+		end
 	end
 end

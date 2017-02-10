@@ -81,5 +81,18 @@ module Latinum::CollectionSpec
 			expect(subject["AUD"]).to be == Latinum::Resource.load("20 AUD")
 			expect(subject["USD"]).to be == Latinum::Resource.load("20 USD")
 		end
+		
+		it "can enumerate resources" do
+			resources = [
+				Latinum::Resource.new("10", "NZD"),
+				Latinum::Resource.new("10", "AUD"),
+				Latinum::Resource.new("10", "USD"),
+			]
+			
+			collection = Latinum::Collection.new
+			collection << resources
+			
+			expect(collection.each.to_a).to be == resources
+		end
 	end
 end
