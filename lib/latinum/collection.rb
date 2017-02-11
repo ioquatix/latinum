@@ -24,6 +24,8 @@ require 'set'
 module Latinum
 	# Aggregates a set of resources, typically used for summing values.
 	class Collection
+		include Enumerable
+		
 		# Initialize the collection with a given set of resource names.
 		def initialize(names = Set.new)
 			@names = names
