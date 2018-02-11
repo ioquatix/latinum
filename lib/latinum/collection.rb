@@ -57,6 +57,23 @@ module Latinum
 			return self
 		end
 		
+		alias + <<
+		
+		def - other
+			self << -other
+		end
+		
+		# Allow negation of all values within the collection:
+		def -@
+			collection = self.class.new
+			
+			@resources.each do |key, value|
+				collection.resources[key] = -value
+			end
+			
+			return collection
+		end
+		
 		# Get a `Resource` for the given name:
 		def [] key
 			Resource.new(@resources[key], key)
