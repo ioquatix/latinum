@@ -21,27 +21,25 @@
 require 'latinum'
 require 'latinum/currencies/global'
 
-module Latinum::CollectionSpec
-	describe Latinum::Bank do
-		before(:all) do
-			@bank = Latinum::Bank.new
-			@bank.import(Latinum::Currencies::Global)
-		end
+RSpec.describe Latinum::Bank do
+	before(:all) do
+		@bank = Latinum::Bank.new
+		@bank.import(Latinum::Currencies::Global)
+	end
+	
+	it "should convert to NZD integral value" do
+		resource = Latinum::Resource.new("10", "NZD")
 		
-		it "should convert to NZD integral value" do
-			resource = Latinum::Resource.new("10", "NZD")
-			
-			expect(@bank.to_integral(resource)).to be == 1000
-			
-			expect(@bank.from_integral(1000, "NZD")).to be == resource
-		end
+		expect(@bank.to_integral(resource)).to be == 1000
 		
-		it "should convert to BTC integral value" do
-			resource = Latinum::Resource.new("1.12345678", "BTC")
-			
-			expect(@bank.to_integral(resource)).to be == 112345678
-			
-			expect(@bank.from_integral(112345678, "BTC")).to be == resource
-		end
+		expect(@bank.from_integral(1000, "NZD")).to be == resource
+	end
+	
+	it "should convert to BTC integral value" do
+		resource = Latinum::Resource.new("1.12345678", "BTC")
+		
+		expect(@bank.to_integral(resource)).to be == 112345678
+		
+		expect(@bank.from_integral(112345678, "BTC")).to be == resource
 	end
 end

@@ -21,65 +21,63 @@
 require 'latinum'
 require 'latinum/currencies/global'
 
-module Latinum::BankSpec
-	describe Latinum::Bank do
-		before(:all) do
-			@bank = Latinum::Bank.new(Latinum::Currencies::Global)
-			
-			@bank << Latinum::ExchangeRate.new("NZD", "AUD", "0.5")
-		end
+RSpec.describe Latinum::Bank do
+	before(:all) do
+		@bank = Latinum::Bank.new(Latinum::Currencies::Global)
 		
-		it "should format the amounts correctly" do
-			resource = Latinum::Resource.new("10", "NZD")
-			
-			expect(@bank.format(resource)).to be == "$10.00 NZD"
-			expect(@bank.format(resource, name: nil)).to be == "$10.00"
-			
-			resource = Latinum::Resource.new("391", "AUD")
-			expect(@bank.format(resource)).to be == "$391.00 AUD"
-			
-			resource = Latinum::Resource.new("-100", "NZD")
-			expect(@bank.format(resource)).to be == "-$100.00 NZD"
-			
-			resource = Latinum::Resource.new("1.12345678", "BTC")
-			expect(@bank.format(resource)).to be == "B⃦1.12345678 BTC"
-		end
+		@bank << Latinum::ExchangeRate.new("NZD", "AUD", "0.5")
+	end
+	
+	it "should format the amounts correctly" do
+		resource = Latinum::Resource.new("10", "NZD")
 		
-		it "should round up using correct precision" do
-			resource = Latinum::Resource.new("19.9989", "NZD")
-			
-			expect(@bank.round(resource)).to be == Latinum::Resource.new(20, "NZD")
-		end
+		expect(@bank.format(resource)).to be == "$10.00 NZD"
+		expect(@bank.format(resource, name: nil)).to be == "$10.00"
 		
-		it "should round down using correct precision" do
-			resource = Latinum::Resource.new("19.991", "NZD")
-			
-			expect(@bank.round(resource)).to be == Latinum::Resource.new("19.99", "NZD")
-		end
+		resource = Latinum::Resource.new("391", "AUD")
+		expect(@bank.format(resource)).to be == "$391.00 AUD"
 		
-		it "should round values when formatting" do
-			resource = Latinum::Resource.new("19.9989", "NZD")
-			
-			expect(@bank.format(resource)).to be == "$20.00 NZD"
-		end
+		resource = Latinum::Resource.new("-100", "NZD")
+		expect(@bank.format(resource)).to be == "-$100.00 NZD"
 		
-		it "should exchange currencies from NZD to AUD" do
-			nzd = Latinum::Resource.new("10", "NZD")
-			
-			aud = @bank.exchange nzd, "AUD"
-			expect(aud).to be == Latinum::Resource.new("5", "AUD")
-		end
+		resource = Latinum::Resource.new("1.12345678", "BTC")
+		expect(@bank.format(resource)).to be == "B⃦1.12345678 BTC"
+	end
+	
+	it "should round up using correct precision" do
+		resource = Latinum::Resource.new("19.9989", "NZD")
 		
-		it "should parser strings into resources" do
-			expect(@bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
-			expect(@bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
-			expect(@bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
-			
-			expect(@bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
-		end
+		expect(@bank.round(resource)).to be == Latinum::Resource.new(20, "NZD")
+	end
+	
+	it "should round down using correct precision" do
+		resource = Latinum::Resource.new("19.991", "NZD")
 		
-		it "should fail to parse unknown resource" do
-			expect{@bank.parse("B5")}.to raise_error(ArgumentError)
-		end
+		expect(@bank.round(resource)).to be == Latinum::Resource.new("19.99", "NZD")
+	end
+	
+	it "should round values when formatting" do
+		resource = Latinum::Resource.new("19.9989", "NZD")
+		
+		expect(@bank.format(resource)).to be == "$20.00 NZD"
+	end
+	
+	it "should exchange currencies from NZD to AUD" do
+		nzd = Latinum::Resource.new("10", "NZD")
+		
+		aud = @bank.exchange nzd, "AUD"
+		expect(aud).to be == Latinum::Resource.new("5", "AUD")
+	end
+	
+	it "should parser strings into resources" do
+		expect(@bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
+		expect(@bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
+		expect(@bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
+		
+		expect(@bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
+	end
+	
+	it "should fail to parse unknown resource" do
+		expect{@bank.parse("B5")}.to raise_error(ArgumentError)
 	end
 end
