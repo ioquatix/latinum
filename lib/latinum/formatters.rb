@@ -64,7 +64,7 @@ module Latinum
 				fix, frac = amount.abs.to_s('F').split(/\./, 2)
 
 				# The sign of the number
-				sign = amount.sign < 0 ? '-' : ''
+				sign = '-' if amount.negative?
 
 				# Decimal places, e.g. the '.00' in '$10.00'
 				frac = frac[0...@places].ljust(@places, @zero)
