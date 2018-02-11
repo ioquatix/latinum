@@ -93,5 +93,18 @@ module Latinum
 				yield Resource.new(value, key)
 			end
 		end
+		
+		# Generate a new collection but ignore zero values.
+		def compact
+			collection = self.class.new
+			
+			@resources.each do |key, value|
+				unless value.zero?
+					collection.resources[key] = value
+				end
+			end
+			
+			return collection
+		end
 	end
 end
