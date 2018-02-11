@@ -57,8 +57,10 @@ module Latinum
 			return self
 		end
 		
+		# Add something to this collection.
 		alias + <<
 		
+		# Subtract something from this collection.
 		def - other
 			self << -other
 		end

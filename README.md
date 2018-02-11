@@ -65,10 +65,9 @@ But, you can't add resources of different names together:
 
 To add multiple currencies together, use a collection:
 
-	> currencies = Set.new
-	> collection = Latinum::Collection.new(currencies)
+	> collection = Latinum::Collection.new
 	> collection << [ten, twenty]
-	> currencies.collect {|currency| collection[currency]}
+	> collection.collect(&:to_s)
 	=> [10.0 NZD, 20.0 AUD]
 
 #### Calculating Totals
