@@ -25,17 +25,17 @@ require 'set'
 
 RSpec.describe Latinum::Collection do
 	it "can set an initial value" do
-		subject["NZD"] = BigDecimal.new("20")
+		subject["NZD"] = BigDecimal("20")
 		
 		expect(subject["NZD"]).to be == Latinum::Resource.load("20 NZD")
 	end
 	
 	it "can be negated" do
-		subject["NZD"] = BigDecimal.new("20")
+		subject["NZD"] = BigDecimal("20")
 		
 		negated = -subject
 		
-		expect(negated["NZD"]).to be == BigDecimal.new("-20")
+		expect(negated["NZD"]).to be == BigDecimal("-20")
 	end
 	
 	it "should sum up currencies correctly" do

@@ -29,7 +29,7 @@ module Latinum
 		# Initialize the collection with a given set of resource names.
 		def initialize(names = Set.new)
 			@names = names
-			@resources = Hash.new {|hash, key| @names << key; BigDecimal.new("0")}
+			@resources = Hash.new {|hash, key| @names << key; BigDecimal("0")}
 		end
 		
 		# All resource names which have been added to the collection, e.g. `['NZD', 'USD']`.

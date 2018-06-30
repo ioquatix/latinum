@@ -23,7 +23,7 @@ require 'latinum/currencies/global'
 require 'latinum/formatters'
 
 RSpec.describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
-	let(:amount) {BigDecimal.new(10)}
+	let(:amount) {BigDecimal(10)}
 	
 	it "can convert to integral" do
 		expect(subject.to_integral(amount)).to be == 10
@@ -71,7 +71,7 @@ RSpec.describe Latinum::Formatters::DecimalCurrencyFormatter do
 	end
 	
 	context "negative zero" do
-		let(:resource) {Latinum::Resource.new(BigDecimal.new("-0"), "NZD")}
+		let(:resource) {Latinum::Resource.new(BigDecimal("-0"), "NZD")}
 		
 		it "should format as (positve) zero" do
 			expect(@bank.format(resource)).to be == "$0.00 NZD"
