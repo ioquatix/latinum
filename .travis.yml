@@ -1,18 +1,20 @@
 language: ruby
-sudo: false
-
-rvm:
-  - 2.1
-  - 2.2
-  - 2.3
-  - 2.4
-  - 2.5
-  - 2.6
-  - ruby-head
-  - rbx-3
-
-env: COVERAGE=true
+dist: xenial
+cache: bundler
 
 matrix:
+  include:
+    - rvm: 2.3
+    - rvm: 2.4
+    - rvm: 2.5
+    - rvm: 2.6
+    - rvm: 2.6
+      os: osx
+    - rvm: 2.6
+      env: COVERAGE=BriefSummary,Coveralls
+    - rvm: truffleruby
+    - rvm: jruby-head
+    - rvm: ruby-head
   allow_failures:
-    - rvm: rbx-3
+    - rvm: ruby-head
+    - rvm: jruby-head
