@@ -94,6 +94,14 @@ module Latinum
 			end
 		end
 		
+		def empty?
+			@resources.empty?
+		end
+		
+		def include?(key)
+			@resources.include?(key)
+		end
+		
 		# Generate a new collection but ignore zero values.
 		def compact
 			collection = self.class.new
@@ -105,6 +113,10 @@ module Latinum
 			end
 			
 			return collection
+		end
+		
+		def to_s
+			@resources.map{|name, amount| "#{amount.to_s('F')} #{name}"}.join("; ")
 		end
 	end
 end

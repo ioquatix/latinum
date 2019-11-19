@@ -101,4 +101,40 @@ RSpec.describe Latinum::Collection do
 		
 		expect(collection.each.to_a).to be == resources
 	end
+	
+	describe '#-@' do
+		it "can subtract itself" do
+			subject << Latinum::Resource.new("10.0", "NZD")
+			
+			result = (subject - subject).compact
+			
+			expect(result).to be_empty
+		end
+	end
+	
+	describe '#compact' do
+		it "can remove zero value resources" do
+			subject << Latinum::Resource.new("0.0", "NZD")
+			
+			expect(subject).to include "NZD"
+			expect(subject.compact).to_not include "NZD"
+		end
+		
+		it "doesn't remove non-zero value resources" do
+			subject << Latinum::Resource.new("1.0", "NZD")
+			
+			expect(subject).to include "NZD"
+			expect(subject.compact).to include "NZD"
+		end
+	end
+	
+	describe '#to_s' do
+		it "can geneate formatted output" do
+			subject << Latinum::Resource.new("5.0", "NZD")
+			subject << Latinum::Resource.new("10.0", "AUD")
+			subject << Latinum::Resource.new("20", "JPY")
+			
+			expect(subject.to_s).to be == "5.0 NZD; 10.0 AUD; 20.0 JPY"
+		end
+	end
 end

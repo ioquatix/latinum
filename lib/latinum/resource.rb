@@ -82,7 +82,7 @@ module Latinum
 		end
 		
 		def to_s
-			@amount.to_s('F') + ' ' + @name.to_s
+			"#{@amount.to_s('F')} #{@name}"
 		end
 		
 		def inspect
