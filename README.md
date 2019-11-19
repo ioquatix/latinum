@@ -2,7 +2,7 @@
 
 Latinum is a library for resource and currency calculations. It provides immutable `Resource` objects for dealing with quantities of named resources with an arbitrary number of decimal places, and `Bank` objects for converting resources and formatting them for output. Latinum doesn't include any global state by default and thus is ideal for integration with other frameworks/libraries.
 
-[![Build Status](https://travis-ci.org/ioquatix/latinum.svg?branch=master)](https://travis-ci.org/ioquatix/latinum)
+[![Build Status](https://travis-ci.com/ioquatix/latinum.svg?branch=master)](https://travis-ci.com/ioquatix/latinum)
 [![Code Climate](https://codeclimate.com/github/ioquatix/latinum.svg)](https://codeclimate.com/github/ioquatix/latinum)
 [![Coverage Status](https://coveralls.io/repos/ioquatix/latinum/badge.svg)](https://coveralls.io/r/ioquatix/latinum)
 
