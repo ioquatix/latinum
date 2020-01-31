@@ -21,7 +21,6 @@
 module Latinum
 	module Formatters
 		DEFAULT_OPTIONS = {
-			:format => :full
 		}
 		
 		class PlainFormatter
