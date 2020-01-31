@@ -148,7 +148,7 @@ Formatting an amount is typically required for presentation to the end user:
 	> bank.format(nzd)
 	=> "$10.00 NZD"
 	
-	> bank.format(aud, :format => :compact)
+	> bank.format(aud, name: nil)
 	=> "$5.00"
 
 The bank can also be used to parse currency, which will depend on the priority of currencies if a symbol that matches multiple currencies is supplied:
