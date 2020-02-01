@@ -69,7 +69,7 @@ RSpec.describe Latinum::Bank do
 		expect(aud).to be == Latinum::Resource.new("5", "AUD")
 	end
 	
-	it "should parser strings into resources" do
+	it "should parse strings into resources" do
 		expect(@bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
 		expect(@bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
 		expect(@bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
