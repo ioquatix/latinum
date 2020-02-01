@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # encoding: UTF-8
 #
 # Copyright, 2015, by Samuel G. D. Williams. <http://www.codeotaku.com>
