@@ -102,13 +102,13 @@ module Latinum
 			parts = string.strip.split(/\s+/, 2)
 			
 			if parts.size == 2
-				Resource.new(parts[0].gsub(/[^\.0-9]/, ''), parts[1])
+				Resource.new(parts[0].gsub(/[^\-\.0-9]/, ''), parts[1])
 			else
 				# Lookup the named symbol, e.g. '$', and get the highest priority name:
 				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last || default_name
 				
 				if symbol
-					Resource.new(string.gsub(/[^\.0-9]/, ''), symbol.last.to_s)
+					Resource.new(string.gsub(/[^\-\.0-9]/, ''), symbol.last.to_s)
 				else
 					raise ArgumentError.new("Could not parse #{string}, could not determine currency!")
 				end
