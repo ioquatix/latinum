@@ -79,6 +79,9 @@ RSpec.describe Latinum::Bank do
 		expect(@bank.parse("-$5")).to be == Latinum::Resource.new("-5", "USD")
 		expect(@bank.parse("-$5 NZD")).to be == Latinum::Resource.new("-5", "NZD")
 		expect(@bank.parse("-€5")).to be == Latinum::Resource.new("-5", "EUR")
+	
+		expect(@bank.parse("5", default_name: "EUR")).to be == Latinum::Resource.new("5", "EUR")
+		expect(@bank.parse("-5", default_name: "EUR")).to be == Latinum::Resource.new("-5", "EUR")
 	end
 	
 	it "should fail to parse unknown resource" do
