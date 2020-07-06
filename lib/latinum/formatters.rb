@@ -22,9 +22,6 @@
 
 module Latinum
 	module Formatters
-		DEFAULT_OPTIONS = {
-		}
-		
 		class PlainFormatter
 			def initialize(name:)
 				@name = name
@@ -44,7 +41,7 @@ module Latinum
 		end
 
 		class DecimalCurrencyFormatter
-			def initialize(options = {})
+			def initialize(**options)
 				@symbol = options[:symbol] || '$'
 				@separator = options[:separator] || '.'
 				@delimeter = options[:delimter] || ','
@@ -58,7 +55,7 @@ module Latinum
 				return amount.round(@places)
 			end
 
-			def format(amount, options = DEFAULT_OPTIONS)
+			def format(amount, **options)
 				# Round to the desired number of places. Truncation used to be the default.
 				amount = amount.round(@places)
 				

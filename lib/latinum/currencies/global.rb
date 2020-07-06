@@ -28,6 +28,8 @@ module Latinum
 	module Currencies
 		Global = {}
 		
+		# @name Global[:NZD]
+		# @attribute [Hash] The New Zealand Dollar configuration.
 		Global[:NZD] = {
 			:precision => 2,
 			:symbol => '$',
@@ -36,6 +38,8 @@ module Latinum
 			:formatter => Formatters::DecimalCurrencyFormatter,
 		}
 		
+		# @name Global[:GBP]
+		# @attribute [Hash] The Great British Pound configuration.
 		Global[:GBP] = {
 			:precision => 2,
 			:symbol => '£',
@@ -44,6 +48,8 @@ module Latinum
 			:formatter => Formatters::DecimalCurrencyFormatter,
 		}
 		
+		# @name Global[:AUD]
+		# @attribute [Hash] The Australian Dollar configuration.
 		Global[:AUD] = {
 			:precision => 2,
 			:symbol => '$',
@@ -52,6 +58,8 @@ module Latinum
 			:formatter => Formatters::DecimalCurrencyFormatter,
 		}
 		
+		# @name Global[:USD]
+		# @attribute [Hash] The United States Dollar configuration.
 		Global[:USD] = {
 			:precision => 2,
 			:symbol => '$',
@@ -60,6 +68,8 @@ module Latinum
 			:formatter => Formatters::DecimalCurrencyFormatter,
 		}
 		
+		# @name Global[:EUR]
+		# @attribute [Hash] The Euro configuration.
 		Global[:EUR] = {
 			:precision => 2,
 			:symbol => '€',
@@ -70,6 +80,8 @@ module Latinum
 			#:separator => ','
 		}
 		
+		# @name Global[:JPY]
+		# @attribute [Hash] The Japanese Yen configuration.
 		Global[:JPY] = {
 			:precision => 0,
 			:symbol => '¥',
@@ -78,6 +90,8 @@ module Latinum
 			:formatter => Formatters::DecimalCurrencyFormatter
 		}
 		
+		# @name Global[:BTC]
+		# @attribute [Hash] The Bitcoin configuration.
 		Global[:BTC] = {
 			:precision => 8,
 			:symbol => 'B⃦',

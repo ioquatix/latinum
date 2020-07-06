@@ -21,6 +21,7 @@
 # THE SOFTWARE.
 
 module Latinum
+	# Represents an error when trying to perform arithmetic on differently named resources.
 	class DifferentResourceNameError < ArgumentError
 		def initialize
 			super "Cannot operate on different currencies!"

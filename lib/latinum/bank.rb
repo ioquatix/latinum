@@ -23,19 +23,31 @@
 require 'latinum/resource'
 
 module Latinum
+	# A basic exchange rate for a named resource.
 	class ExchangeRate
+		# @parameter input [String] The name of the input resource.
+		# @parameter output [String] The name of the output resource.
+		# @parameter factor [Numeric] The rate of exchange.
 		def initialize(input, output, factor)
 			@input = input
 			@output = output
 			@factor = factor.to_d
 		end
 		
+		# The name of the input resource.
+		# @attribute [String]
 		attr :input
+		
+		# The name of the output resource.
+		# @attribute [String]
 		attr :output
+		
+		# The rate of exchange.
+		# @attribute [String]
 		attr :factor
 	end
 	
-	# A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource related state.
+	# A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource formatting and metadata.
 	class Bank
 		# Imports all given currencies.
 		def initialize(*imports)
@@ -73,16 +85,23 @@ module Latinum
 		end
 		
 		# Look up a currency by name.
-		def [] name
+		def [](name)
 			@currencies[name]
 		end
 		
 		attr :rates
+		
+		# A map of all recognised symbols ordered by priority.
+		# @attribute [Hash(String, Tuple(Integer, Name))]
 		attr :symbols
+		
+		# The supported currents and assocaited formatting details.
+		# @attribute [Hash(String, Hash)]
 		attr :currencies
 		
 		# Add an exchange rate to the bank.
-		def << rate
+		# @parameter rate [ExchangeRate] The exchange rate to add.
+		def <<(rate)
 			@rates << rate
 			
 			@exchange[rate.input] ||= {}
@@ -91,12 +110,13 @@ module Latinum
 		
 		# Exchange one resource for another using internally specified rates.
 		def exchange(resource, for_name)
-			rate = @exchange[resource.name][for_name] rescue nil
-			raise ArgumentError.new("Rate #{rate} unavailable") if rate == nil
+			unless rate = @exchange.dig(resource.name, for_name)
+				raise ArgumentError.new("Rate #{rate} unavailable")
+			end
 			
 			config = self[for_name]
 			
-			resource.exchange(rate.factor, for_name, config[:precision])
+			return resource.exchange(rate.factor, for_name, config[:precision])
 		end
 		
 		# Parse a string according to the loaded currencies.
@@ -104,37 +124,45 @@ module Latinum
 			parts = string.strip.split(/\s+/, 2)
 			
 			if parts.size == 2
-				Resource.new(parts[0].gsub(/[^\-\.0-9]/, ''), parts[1])
+				return Resource.new(parts[0].gsub(/[^\-\.0-9]/, ''), parts[1])
 			else
 				# Lookup the named symbol, e.g. '$', and get the highest priority name:
 				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last
 				
 				if symbol
-					Resource.new(string.gsub(/[^\-\.0-9]/, ''), symbol.last.to_s)
+					return Resource.new(string.gsub(/[^\-\.0-9]/, ''), symbol.last.to_s)
 				elsif default_name
-					Resource.new(string.gsub(/[^\-\.0-9]/, ''), default_name.to_s)
+					return Resource.new(string.gsub(/[^\-\.0-9]/, ''), default_name.to_s)
 				else
 					raise ArgumentError.new("Could not parse #{string}, could not determine currency!")
 				end
 			end
 		end
 		
+		# Rounds the specified resource to the maximum precision as specified by the formatter. Whe computing things like tax, you often get fractional amounts which are unpayable because they are smaller than the minimum discrete unit of the currency. This method helps to round a currency to a payable amount.
+		# @parameter resource [Resource] The resource to round.
+		# @returns [Resource] A copy of the resource with the amount rounded as per the formatter.
 		def round(resource)
-			formatter = @formatters[resource.name]
-			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
+			unless formatter = @formatters[resource.name]
+				raise ArgumentError.new("No formatter found for #{resource.name}")
+			end
 			
-			Latinum::Resource.new(formatter.round(resource.amount), resource.name)
+			return Resource.new(formatter.round(resource.amount), resource.name)
 		end
 		
 		# Format a resource as a string according to the loaded currencies.
-		def format(resource, *args)
-			formatter = @formatters[resource.name]
-			raise ArgumentError.new("No formatter found for #{resource.name}") unless formatter
+		# @parameter resource [Resource] The resource to format.
+		def format(resource, *arguments, **options)
+			unless formatter = @formatters[resource.name]
+				raise ArgumentError.new("No formatter found for #{resource.name}")
+			end
 			
-			formatter.format(resource.amount, *args)
+			formatter.format(resource.amount, *arguments, **options)
 		end
 		
 		# Convert the resource to an integral representation based on the currency's precision.
+		# @parameter resource [Resource] The resource to convert.
+		# @returns [Integer] The integer representation.
 		def to_integral(resource)
 			formatter = @formatters[resource.name]
 			
@@ -142,10 +170,13 @@ module Latinum
 		end
 		
 		# Convert the resource from an integral representation based on the currency's precision.
-		def from_integral(amount, resource_name)
-			formatter = @formatters[resource_name]
+		# @parameter amount [Integer] The integral resource amount.
+		# @parameter name [String] The resource name.
+		# @returns [Resource] The converted resource.
+		def from_integral(amount, name)
+			formatter = @formatters[name]
 			
-			Resource.new(formatter.from_integral(amount), resource_name)
+			Resource.new(formatter.from_integral(amount), name)
 		end
 	end
 end

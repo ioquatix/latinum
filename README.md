@@ -22,15 +22,17 @@ Please see the [project documentation](https://ioquatix.github.io/latinum).
 
 ## Contributing
 
-1.  Fork it
-2.  Create your feature branch (`git checkout -b my-new-feature`)
-3.  Commit your changes (`git commit -am 'Add some feature'`)
-4.  Push to the branch (`git push origin my-new-feature`)
-5.  Create new Pull Request
+We welcome contributions to this project.
+
+1.  Fork it.
+2.  Create your feature branch (`git checkout -b my-new-feature`).
+3.  Commit your changes (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin my-new-feature`).
+5.  Create new Pull Request.
 
 ## License
 
-Copyright, 2015, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2015, by [Samuel G. D. Williams](https://www.codeotaku.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
