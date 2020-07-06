@@ -23,13 +23,9 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 
+require_relative 'error'
+
 module Latinum
-	class DifferentResourceNameError < ArgumentError
-		def initialize
-			super "Cannot operate on different currencies!"
-		end
-	end
-	
 	# A fixed unit in a given named resource
 	class Resource
 		include Comparable
