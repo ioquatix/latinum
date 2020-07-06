@@ -1,0 +1,6 @@
+getting-started:
+  order: 1
+activerecord-integration:
+  order: 2
+relaxo-integration:
+  order: 3
