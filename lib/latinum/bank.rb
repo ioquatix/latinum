@@ -74,7 +74,7 @@ module Latinum
 				@currencies[name] = config
 				
 				# Create a formatter:
-				@formatters[name] = config[:formatter].new(config)
+				@formatters[name] = config[:formatter].new(**config)
 				
 				if config[:symbol]
 					symbols = (@symbols[config[:symbol]] ||= [])
