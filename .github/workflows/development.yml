@@ -39,7 +39,7 @@ jobs:
         ruby-version: ${{matrix.ruby}}
     
     - name: Install dependencies
-      run: ${{matrix.env}} bundle install --without development
+      run: ${{matrix.env}} bundle install
     
     - name: Run tests
       timeout-minutes: 5
