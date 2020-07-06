@@ -58,6 +58,12 @@ RSpec.describe Latinum::Resource do
 		expect(resource.inspect).to be == '#<Latinum::Resource "10.0 NZD">'
 	end
 	
+	it "can convert to digits" do
+		resource = Latinum::Resource.load("10 NZD")
+		
+		expect(resource.to_digits).to be == "10.0"
+	end
+	
 	it "should compute percentage difference" do
 		original_price = Latinum::Resource.load("10 NZD")
 		discount_price = Latinum::Resource.load("5 NZD")

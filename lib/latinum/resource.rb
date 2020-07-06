@@ -87,6 +87,10 @@ module Latinum
 			"#{@amount.to_s('F')} #{@name}"
 		end
 		
+		def to_digits
+			@amount.to_s('F')
+		end
+		
 		def inspect
 			"#<#{self.class.name} #{self.to_s.dump}>"
 		end
