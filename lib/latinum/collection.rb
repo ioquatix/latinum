@@ -61,7 +61,7 @@ module Latinum
 				object.resources.each { |name, amount| @resources[name] += amount }
 			end
 			
-			return selfo
+			return self
 		end
 		
 		# Add something to this collection.
