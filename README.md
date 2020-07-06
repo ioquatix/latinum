@@ -1,6 +1,6 @@
 # Latinum
 
-Latinum is a library for resource and money calculations. It provides immutable `Resource` objects for dealing with quantities of named resources with an arbitrary number of decimal places, and `Bank` objects for converting resources and formatting them for output. Latinum doesn't include any global state by default and thus is ideal for integration with other frameworks/libraries.
+Latinum is a library for resource and money calculations. It provides immutable {ruby Latinum::Resource} objects for dealing with quantities of named resources with an arbitrary number of decimal places, and {ruby Latinum::Bank} objects for converting resources and formatting them for output. Latinum doesn't include any global state by design and thus is ideal for integration with other frameworks/libraries.
 
 [![Development Status](https://github.com/ioquatix/latinum/workflows/Development/badge.svg)](https://github.com/ioquatix/latinum/actions?workflow=Development)
 

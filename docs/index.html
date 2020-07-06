@@ -26,7 +26,7 @@
 		<nav> › <a class="link" href="index.html">Project</a></nav>
 		
 		
-	<h1>Latinum</h1><main><p>Latinum is a library for resource and money calculations. It provides immutable <code>Resource</code> objects for dealing with quantities of named resources with an arbitrary number of decimal places, and <code>Bank</code> objects for converting resources and formatting them for output. Latinum doesn't include any global state by default and thus is ideal for integration with other frameworks/libraries.</p>
+	<h1>Latinum</h1><main><p>Latinum is a library for resource and money calculations. It provides immutable <a href="source/Latinum/Resource/index.html" title="Latinum::Resource"><code class="language-ruby">class Latinum::Resource</code></a> objects for dealing with quantities of named resources with an arbitrary number of decimal places, and <a href="source/Latinum/Bank/index.html" title="Latinum::Bank"><code class="language-ruby">class Latinum::Bank</code></a> objects for converting resources and formatting them for output. Latinum doesn't include any global state by design and thus is ideal for integration with other frameworks/libraries.</p>
 <p><a href="https://github.com/ioquatix/latinum/actions?workflow=Development"><img src="https://github.com/ioquatix/latinum/workflows/Development/badge.svg" alt="Development Status"/></a></p>
 <h2 id="motivation">Motivation</h2>
 <p>I was originally planning on using the <a href="https://github.com/RubyMoney/money">Money gem</a>, but it's <a href="https://github.com/RubyMoney/money/blob/39b617cca8f02c885cc8246e0aab3e9dc5f90e15/lib/money/currency.rb#L19-L21">dependency on global state</a> makes it hard to use if you want to deal with money as an immutable value type.</p>
