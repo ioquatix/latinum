@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Source</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../_static/icon.png"/>
+		<link rel="stylesheet" href="../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../_components/jquery/jquery.min.js"></script>
+		<script src="../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body class="">
+		<nav> › <a class="link" href="../index.html">Project</a> › <a class="link" href="index.html">Source</a></nav>
+		
+		
+	<h1>Source</h1>
+	
+	<main>
+		<ul class="index"><li>
+						<a href="Latinum/index.html"><code class="language-ruby">module Latinum</code></a>
+						
+						
+						<ul class="index"><li>
+						<a href="Latinum/Resource/index.html"><code class="language-ruby">class Resource</code></a>
+						
+							<p>A Resource represents a fixed amount of a named currency or material.</p>
+
+						
+						<ul class="index"><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource.parse"><code class="language-ruby">def self.parse(string, default_name: nil)</code></a>
+						
+							<p>Parse a string representation of a resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource.load"><code class="language-ruby">def self.load(string)</code></a>
+						
+							<p>Load a string representation of a resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource.dump"><code class="language-ruby">def self.dump(resource)</code></a>
+						
+							<p>Dump a string representatino of a resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23amount"><code class="language-ruby">attr :amount</code></a>
+						
+							<p>The amount of the resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23name"><code class="language-ruby">attr :name</code></a>
+						
+							<p>The name of the resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23%2B"><code class="language-ruby">def + other</code></a>
+						
+							<p>Add two resources. Must have the same name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23-"><code class="language-ruby">def - other</code></a>
+						
+							<p>Subtract two resources. Must have the same name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23-%40"><code class="language-ruby">def -@</code></a>
+						
+							<p>Invert the amount of the resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23%2A"><code class="language-ruby">def * factor</code></a>
+						
+							<p>Multiplies the resource by a given factor.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23%2F"><code class="language-ruby">def / factor</code></a>
+						
+							<p>Divides the resource by a given factor.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23exchange"><code class="language-ruby">def exchange(rate, name, precision = nil)</code></a>
+						
+							<p>Compute a new resource using the given exchange rate for the specified name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23to_s"><code class="language-ruby">def to_s</code></a>
+						
+							<p>A human readable string representation of the resource amount and name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23to_digits"><code class="language-ruby">def to_digits</code></a>
+						
+							<p>A human readable string representation of the resource amount.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23%3C%3D%3E"><code class="language-ruby">def &lt;=&gt; other</code></a>
+						
+							<p>Compare with another <a href="Latinum/Resource/index.html" title="Resource"><code class="language-ruby">class Latinum::Resource</code></a> or a Numeric value.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Resource/index.html#Latinum%3A%3AResource%23zero%3F"><code class="language-ruby">def zero?</code></a>
+						
+							<p>Whether the amount of the resource is zero.</p>
+
+						
+											</li></ul>					</li><li>
+						<a href="Latinum/DifferentResourceNameError/index.html"><code class="language-ruby">class DifferentResourceNameError &lt; ArgumentError</code></a>
+						
+							<p>Represents an error when trying to perform arithmetic on differently named resources.</p>
+
+						
+						<ul class="index"></ul>					</li><li>
+						<a href="Latinum/Currencies/index.html"><code class="language-ruby">module Currencies</code></a>
+						
+						
+						<ul class="index"><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3ANZD%5D"><code class="language-ruby">Global[:NZD]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3AGBP%5D"><code class="language-ruby">Global[:GBP]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3AAUD%5D"><code class="language-ruby">Global[:AUD]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3AUSD%5D"><code class="language-ruby">Global[:USD]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3AEUR%5D"><code class="language-ruby">Global[:EUR]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3AJPY%5D"><code class="language-ruby">Global[:JPY]</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Currencies/index.html#Latinum%3A%3ACurrencies%23Global%5B%3ABTC%5D"><code class="language-ruby">Global[:BTC]</code></a>
+						
+						
+											</li></ul>					</li><li>
+						<a href="Latinum/Formatters/index.html"><code class="language-ruby">module Formatters</code></a>
+						
+						
+						<ul class="index"><li>
+						<a href="Latinum/Formatters/PlainFormatter/index.html"><code class="language-ruby">class PlainFormatter</code></a>
+						
+						
+						<ul class="index"></ul>					</li><li>
+						<a href="Latinum/Formatters/DecimalCurrencyFormatter/index.html"><code class="language-ruby">class DecimalCurrencyFormatter</code></a>
+						
+						
+						<ul class="index"></ul>					</li></ul>					</li><li>
+						<a href="Latinum/ExchangeRate/index.html"><code class="language-ruby">class ExchangeRate</code></a>
+						
+							<p>A basic exchange rate for a named resource.</p>
+
+						
+						<ul class="index"><li>
+						<a href="Latinum/ExchangeRate/index.html#Latinum%3A%3AExchangeRate%23initialize"><code class="language-ruby">def initialize(input, output, factor)</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/ExchangeRate/index.html#Latinum%3A%3AExchangeRate%23input"><code class="language-ruby">attr :input</code></a>
+						
+							<p>The name of the input resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/ExchangeRate/index.html#Latinum%3A%3AExchangeRate%23output"><code class="language-ruby">attr :output</code></a>
+						
+							<p>The name of the output resource.</p>
+
+						
+											</li><li>
+						<a href="Latinum/ExchangeRate/index.html#Latinum%3A%3AExchangeRate%23factor"><code class="language-ruby">attr :factor</code></a>
+						
+							<p>The rate of exchange.</p>
+
+						
+											</li></ul>					</li><li>
+						<a href="Latinum/Bank/index.html"><code class="language-ruby">class Bank</code></a>
+						
+							<p>A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource formatting and metadata.</p>
+
+						
+						<ul class="index"><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23initialize"><code class="language-ruby">def initialize(*imports)</code></a>
+						
+							<p>Imports all given currencies.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23import"><code class="language-ruby">def import(resources)</code></a>
+						
+							<p>Import a list of resource templates, e.g. currencies.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23%5B%5D"><code class="language-ruby">def [](name)</code></a>
+						
+							<p>Look up a currency by name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23symbols"><code class="language-ruby">attr :symbols</code></a>
+						
+							<p>A map of all recognised symbols ordered by priority.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23currencies"><code class="language-ruby">attr :currencies</code></a>
+						
+							<p>The supported currents and assocaited formatting details.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23%3C%3C"><code class="language-ruby">def &lt;&lt;(rate)</code></a>
+						
+							<p>Add an exchange rate to the bank.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23exchange"><code class="language-ruby">def exchange(resource, for_name)</code></a>
+						
+							<p>Exchange one resource for another using internally specified rates.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23parse"><code class="language-ruby">def parse(string, default_name: nil)</code></a>
+						
+							<p>Parse a string according to the loaded currencies.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23round"><code class="language-ruby">def round(resource)</code></a>
+						
+							<p>Rounds the specified resource to the maximum precision as specified by the formatter. Whe computing things like tax, you often get fractional amounts which are unpayable because they are smaller than the minimum discrete unit of the currency. This method helps to round a currency to a payable amount.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23format"><code class="language-ruby">def format(resource, *arguments, **options)</code></a>
+						
+							<p>Format a resource as a string according to the loaded currencies.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23to_integral"><code class="language-ruby">def to_integral(resource)</code></a>
+						
+							<p>Convert the resource to an integral representation based on the currency's precision.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Bank/index.html#Latinum%3A%3ABank%23from_integral"><code class="language-ruby">def from_integral(amount, name)</code></a>
+						
+							<p>Convert the resource from an integral representation based on the currency's precision.</p>
+
+						
+											</li></ul>					</li><li>
+						<a href="Latinum/Collection/index.html"><code class="language-ruby">class Collection</code></a>
+						
+							<p>Aggregates a set of resources, typically used for summing values to compute a total.</p>
+
+						
+						<ul class="index"><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23initialize"><code class="language-ruby">def initialize(names = Set.new)</code></a>
+						
+							<p>Initialize the collection with a given set of resource names.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23names"><code class="language-ruby">attr :names</code></a>
+						
+							<p>All resource names which have been added to the collection.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23resources"><code class="language-ruby">attr :resources</code></a>
+						
+							<p>Keeps track of all added resources.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23add"><code class="language-ruby">def add(resource)</code></a>
+						
+							<p>Add a resource into the totals.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23%3C%3C"><code class="language-ruby">def &lt;&lt;(object)</code></a>
+						
+							<p>Add a resource, an array of resources, or another collection into this one.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23-"><code class="language-ruby">def - other</code></a>
+						
+							<p>Subtract something from this collection.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23-%40"><code class="language-ruby">def -@</code></a>
+						
+							<p>Allow negation of all values within the collection.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23%5B%5D"><code class="language-ruby">def [] key</code></a>
+						
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23%5B%5D%3D"><code class="language-ruby">def []= key, amount</code></a>
+						
+							<p>Set the amount for the specified resource name.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23each"><code class="language-ruby">def each</code></a>
+						
+							<p>Iterates over all the resources.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23empty%3F"><code class="language-ruby">def empty?</code></a>
+						
+							<p>Whether the collection is empty.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23include%3F"><code class="language-ruby">def include?(key)</code></a>
+						
+							<p>Whether the collection contains the specified resource (may be zero).</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23compact"><code class="language-ruby">def compact</code></a>
+						
+							<p>Generate a new collection but ignore zero values.</p>
+
+						
+											</li><li>
+						<a href="Latinum/Collection/index.html#Latinum%3A%3ACollection%23to_s"><code class="language-ruby">def to_s</code></a>
+						
+							<p>A human readable representation of the collection.</p>
+
+						
+											</li></ul>					</li></ul>					</li></ul>	</main>
+
+		
+		<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+	</body>
+</html>

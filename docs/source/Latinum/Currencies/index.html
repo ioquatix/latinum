@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Latinum::Currencies</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body class="">
+		<nav> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></nav>
+		
+		
+	<h1><code class="language-ruby">Latinum::Currencies</code></h1>
+	
+	<main>
+				
+		
+		<h2>Definitions</h2>
+		
+		<h3 id="Latinum::Currencies#Global[:NZD]"><code class="language-ruby">Global[:NZD]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The New Zealand Dollar configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:NZD] = {
+	:precision =&gt; 2,
+	:symbol =&gt; '$',
+	:name =&gt; 'NZD',
+	:description =&gt; 'New Zealand Dollar',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter,
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:GBP]"><code class="language-ruby">Global[:GBP]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The Great British Pound configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:GBP] = {
+	:precision =&gt; 2,
+	:symbol =&gt; '£',
+	:name =&gt; 'GBP',
+	:description =&gt; 'Pound Sterling',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter,
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:AUD]"><code class="language-ruby">Global[:AUD]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The Australian Dollar configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:AUD] = {
+	:precision =&gt; 2,
+	:symbol =&gt; '$',
+	:name =&gt; 'AUD',
+	:description =&gt; 'Australian Dollar',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter,
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:USD]"><code class="language-ruby">Global[:USD]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The United States Dollar configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:USD] = {
+	:precision =&gt; 2,
+	:symbol =&gt; '$',
+	:name =&gt; 'USD',
+	:description =&gt; 'United States Dollar',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter,
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:EUR]"><code class="language-ruby">Global[:EUR]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The Euro configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:EUR] = {
+	:precision =&gt; 2,
+	:symbol =&gt; '€',
+	:name =&gt; 'EUR',
+	:description =&gt; 'Euro',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter,
+	#:delimeter =&gt; '.',
+	#:separator =&gt; ','
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:JPY]"><code class="language-ruby">Global[:JPY]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The Japanese Yen configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:JPY] = {
+	:precision =&gt; 0,
+	:symbol =&gt; '¥',
+	:name =&gt; 'JPY',
+	:description =&gt; 'Japanese Yen',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter
+}</code></pre>
+						</details><h3 id="Latinum::Currencies#Global[:BTC]"><code class="language-ruby">Global[:BTC]</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash</code></dt><dd><p>The Bitcoin configuration.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">Global[:BTC] = {
+	:precision =&gt; 8,
+	:symbol =&gt; 'B⃦',
+	:name =&gt; 'BTC',
+	:description =&gt; 'Bitcoin',
+	:formatter =&gt; Formatters::DecimalCurrencyFormatter
+}</code></pre>
+						</details>	</main>
+
+		
+		<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+	</body>
+</html>

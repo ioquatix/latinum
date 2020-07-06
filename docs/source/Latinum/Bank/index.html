@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Latinum::Bank</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body class="">
+		<nav> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></nav>
+		
+		
+	<h1><code class="language-ruby">Latinum::Bank</code></h1>
+	
+	<main>
+		<p>A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource formatting and metadata.</p>
+		
+		
+		<h2>Definitions</h2>
+		
+		<h3 id="Latinum::Bank#initialize"><code class="language-ruby">def initialize(*imports)</code></h3><p>Imports all given currencies.</p>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def initialize(*imports)
+	@rates = []
+	@exchange = {}
+	
+	# This implementation may change:
+	@currencies = {}
+	@formatters = {}
+	
+	# Symbols and their associated priorities
+	@symbols = {}
+	
+	imports.each do |resources|
+		import(resources)
+	end
+end</code></pre>
+						</details><h3 id="Latinum::Bank#import"><code class="language-ruby">def import(resources)</code></h3><p>Import a list of resource templates, e.g. currencies.</p>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def import(resources)
+	resources.each do |name, config|
+		name = (config[:name] || name).to_s
+		
+		@currencies[name] = config
+		
+		# Create a formatter:
+		@formatters[name] = config[:formatter].new(config)
+		
+		if config[:symbol]
+			symbols = (@symbols[config[:symbol]] ||= [])
+			symbols &lt;&lt; [config.fetch(:priority, -1), name.to_s]
+			symbols.sort!.uniq!
+		end
+	end
+end</code></pre>
+						</details><h3 id="Latinum::Bank#[]"><code class="language-ruby">def [](name)</code></h3><p>Look up a currency by name.</p>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def [](name)
+	@currencies[name]
+end</code></pre>
+						</details><h3 id="Latinum::Bank#symbols"><code class="language-ruby">attr :symbols</code></h3><p>A map of all recognised symbols ordered by priority.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash(String, Tuple(Integer, Name))</code></dt></dl>
+</details>
+<h3 id="Latinum::Bank#currencies"><code class="language-ruby">attr :currencies</code></h3><p>The supported currents and assocaited formatting details.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash(String, Hash)</code></dt></dl>
+</details>
+<h3 id="Latinum::Bank#&lt;&lt;"><code class="language-ruby">def &lt;&lt;(rate)</code></h3><p>Add an exchange rate to the bank.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">rate</code>　<code class="language-ruby"><a href="../ExchangeRate/index.html">Latinum::ExchangeRate</a></code></dt><dd><p>The exchange rate to add.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def &lt;&lt;(rate)
+	@rates &lt;&lt; rate
+	
+	@exchange[rate.input] ||= {}
+	@exchange[rate.input][rate.output] = rate
+end</code></pre>
+						</details><h3 id="Latinum::Bank#exchange"><code class="language-ruby">def exchange(resource, for_name)</code></h3><p>Exchange one resource for another using internally specified rates.</p>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def exchange(resource, for_name)
+	unless rate = @exchange.dig(resource.name, for_name)
+		raise ArgumentError.new(&quot;Rate #{rate} unavailable&quot;)
+	end
+	
+	config = self[for_name]
+	
+	return resource.exchange(rate.factor, for_name, config[:precision])
+end</code></pre>
+						</details><h3 id="Latinum::Bank#parse"><code class="language-ruby">def parse(string, default_name: nil)</code></h3><p>Parse a string according to the loaded currencies.</p>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def parse(string, default_name: nil)
+	parts = string.strip.split(/\s+/, 2)
+	
+	if parts.size == 2
+		return Resource.new(parts[0].gsub(/[^\-\.0-9]/, ''), parts[1])
+	else
+		# Lookup the named symbol, e.g. '$', and get the highest priority name:
+		symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last
+		
+		if symbol
+			return Resource.new(string.gsub(/[^\-\.0-9]/, ''), symbol.last.to_s)
+		elsif default_name
+			return Resource.new(string.gsub(/[^\-\.0-9]/, ''), default_name.to_s)
+		else
+			raise ArgumentError.new(&quot;Could not parse #{string}, could not determine currency!&quot;)
+		end
+	end
+end</code></pre>
+						</details><h3 id="Latinum::Bank#round"><code class="language-ruby">def round(resource)</code></h3><p>Rounds the specified resource to the maximum precision as specified by the formatter. Whe computing things like tax, you often get fractional amounts which are unpayable because they are smaller than the minimum discrete unit of the currency. This method helps to round a currency to a payable amount.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">resource</code>　<code class="language-ruby"><a href="../Resource/index.html">Latinum::Resource</a></code></dt><dd><p>The resource to round.</p>
+</dd><dt>
+					<strong>returns</strong>　<code class="language-ruby"><a href="../Resource/index.html">Latinum::Resource</a></code></dt><dd><p>A copy of the resource with the amount rounded as per the formatter.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def round(resource)
+	unless formatter = @formatters[resource.name]
+		raise ArgumentError.new(&quot;No formatter found for #{resource.name}&quot;)
+	end
+	
+	return Resource.new(formatter.round(resource.amount), resource.name)
+end</code></pre>
+						</details><h3 id="Latinum::Bank#format"><code class="language-ruby">def format(resource, *arguments, **options)</code></h3><p>Format a resource as a string according to the loaded currencies.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">resource</code>　<code class="language-ruby"><a href="../Resource/index.html">Latinum::Resource</a></code></dt><dd><p>The resource to format.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def format(resource, *arguments, **options)
+	unless formatter = @formatters[resource.name]
+		raise ArgumentError.new(&quot;No formatter found for #{resource.name}&quot;)
+	end
+	
+	formatter.format(resource.amount, *arguments, **options)
+end</code></pre>
+						</details><h3 id="Latinum::Bank#to_integral"><code class="language-ruby">def to_integral(resource)</code></h3><p>Convert the resource to an integral representation based on the currency's precision.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">resource</code>　<code class="language-ruby"><a href="../Resource/index.html">Latinum::Resource</a></code></dt><dd><p>The resource to convert.</p>
+</dd><dt>
+					<strong>returns</strong>　<code class="language-ruby">Integer</code></dt><dd><p>The integer representation.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def to_integral(resource)
+	formatter = @formatters[resource.name]
+	
+	formatter.to_integral(resource.amount)
+end</code></pre>
+						</details><h3 id="Latinum::Bank#from_integral"><code class="language-ruby">def from_integral(amount, name)</code></h3><p>Convert the resource from an integral representation based on the currency's precision.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">amount</code>　<code class="language-ruby">Integer</code></dt><dd><p>The integral resource amount.</p>
+</dd><dt>
+					<strong>parameter</strong>　<code class="syntax">name</code>　<code class="language-ruby">String</code></dt><dd><p>The resource name.</p>
+</dd><dt>
+					<strong>returns</strong>　<code class="language-ruby"><a href="../Resource/index.html">Latinum::Resource</a></code></dt><dd><p>The converted resource.</p>
+</dd></dl>
+</details>
+<details>
+							<summary><h4>Implementation</h4></summary>
+							<pre><code class="language-ruby">def from_integral(amount, name)
+	formatter = @formatters[name]
+	
+	Resource.new(formatter.from_integral(amount), name)
+end</code></pre>
+						</details>	</main>
+
+		
+		<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+	</body>
+</html>
