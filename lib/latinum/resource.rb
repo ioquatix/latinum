@@ -49,7 +49,7 @@ module Latinum
 			end
 		end
 		
-		# Dump a string representatino of a resource.
+		# Dump a string representation of a resource.
 		# @parameter resource [Resource] The resource to dump.
 		# @returns [String | Nil] A string that represents the {Resource}.
 		def self.dump(resource)
