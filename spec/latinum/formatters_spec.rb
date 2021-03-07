@@ -71,6 +71,10 @@ RSpec.describe Latinum::Formatters::DecimalCurrencyFormatter do
 	it "should format output with alternative symbol" do
 		expect(@bank.format(resource, symbol: "!!")).to be == "!!10.00 NZD"
 	end
+
+	it "should format output with alternative places" do
+		expect(@bank.format(resource, places: 4)).to be == "$10.0000 NZD"
+	end
 	
 	context "negative zero" do
 		let(:resource) {Latinum::Resource.new(BigDecimal("-0"), "NZD")}
