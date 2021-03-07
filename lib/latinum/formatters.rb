@@ -55,7 +55,7 @@ module Latinum
 			def initialize(**options)
 				@symbol = options[:symbol] || '$'
 				@separator = options[:separator] || '.'
-				@delimeter = options[:delimter] || ','
+				@delimeter = options[:delimeter] || ','
 				@places = options[:precision] || 2
 				@zero = options[:zero] || '0'
 				
