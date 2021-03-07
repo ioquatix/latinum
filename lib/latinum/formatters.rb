@@ -71,7 +71,7 @@ module Latinum
 			# @returns [String] The formatted string.
 			def format(amount, places: @places, **options)
 				# Round to the desired number of places. Truncation used to be the default.
-				amount = amount.round(places)
+				amount = amount.round(places).to_d
 				
 				integral, fraction = amount.abs.to_s('F').split(/\./, 2)
 				
