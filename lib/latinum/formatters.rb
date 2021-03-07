@@ -69,9 +69,9 @@ module Latinum
 			# Formats the amount using the configured symbol, separator, delimeter, and places.
 			# e.g. "$5,000.00 NZD". Rounds the amount to the specified number of decimal places.
 			# @returns [String] The formatted string.
-			def format(amount, **options)
+			def format(amount, places: @places, **options)
 				# Round to the desired number of places. Truncation used to be the default.
-				amount = amount.round(@places)
+				amount = amount.round(places)
 				
 				integral, fraction = amount.abs.to_s('F').split(/\./, 2)
 				
@@ -79,7 +79,7 @@ module Latinum
 				sign = '-' if amount < 0
 				
 				# Decimal places, e.g. the '.00' in '$10.00'
-				fraction = fraction[0...@places].ljust(@places, @zero)
+				fraction = fraction[0...places].ljust(places, @zero)
 				
 				# Grouping, e.g. the ',' in '$10,000.00'
 				remainder = integral.size % 3
@@ -92,7 +92,7 @@ module Latinum
 				name = options.fetch(:name, @name)
 				suffix = name ? " #{name}" : ''
 				
-				if @places > 0
+				if places > 0
 					"#{value}#{@separator}#{fraction}#{suffix}"
 				else
 					"#{value}#{suffix}"
