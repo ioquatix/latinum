@@ -124,18 +124,28 @@ module Latinum
 			parts = string.strip.split(/\s+/, 2)
 			
 			if parts.size == 2
-				return Resource.new(parts[0].gsub(/[^\-\.0-9]/, ''), parts[1])
+				return parse_named_resource(parts[1], parts[0])
 			else
 				# Lookup the named symbol, e.g. '$', and get the highest priority name:
 				symbol = @symbols.fetch(string.gsub(/[\-\.,0-9]/, ''), []).last
 				
 				if symbol
-					return Resource.new(string.gsub(/[^\-\.0-9]/, ''), symbol.last.to_s)
+					name = symbol.last.to_s
 				elsif default_name
-					return Resource.new(string.gsub(/[^\-\.0-9]/, ''), default_name.to_s)
+					name = default_name
 				else
-					raise ArgumentError.new("Could not parse #{string}, could not determine currency!")
+					raise ArgumentError, "Could not parse #{string}, could not determine resource name!"
 				end
+				
+				return parse_named_resource(name, string)
+			end
+		end
+		
+		private def parse_named_resource(name, value)
+			if formatter = @formatters[name]
+				return Resource.new(formatter.parse(value), name)
+			else
+				raise ArgumentError, "No formatter found for #{name}!"
 			end
 		end
 		
