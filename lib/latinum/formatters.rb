@@ -28,6 +28,12 @@ module Latinum
 				@name = name
 			end
 			
+			# Parse a string into an amount.
+			# @returns [BigDecimal] The parsed amount.
+			def parse(string)
+				BigDecimal(string)
+			end
+			
 			# Formats the amount using a general notation.
 			# e.g. "5.0 NZD".
 			# @returns [String] The formatted string.
@@ -64,6 +70,14 @@ module Latinum
 			
 			def round(amount)
 				return amount.round(@places)
+			end
+			
+			# Parse a string into an amount using the configured separator and delimiter.
+			# @returns [BigDecimal] The parsed amount.
+			def parse(string)
+				BigDecimal(
+					string.gsub(/[^\-0-9#{@delimiter}]/, '').gsub(@separator, '.')
+				)
 			end
 			
 			# Formats the amount using the configured symbol, separator, delimeter, and places.
