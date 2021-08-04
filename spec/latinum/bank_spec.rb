@@ -89,4 +89,13 @@ RSpec.describe Latinum::Bank do
 	it "should fail to parse unknown resource" do
 		expect{@bank.parse("B5")}.to raise_error(ArgumentError)
 	end
+	
+	context 'BRL' do
+		it 'should be symmetric' do
+			resource = Latinum::Resource.new("9.90", "BRL")
+			formatted = @bank.format(resource)
+			expect(formatted).to be == "R$9,90 BRL"
+			expect(@bank.parse(formatted)).to be == resource
+		end
+	end
 end

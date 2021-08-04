@@ -76,7 +76,7 @@ module Latinum
 			:name => 'EUR',
 			:description => 'Euro',
 			:formatter => Formatters::DecimalCurrencyFormatter,
-			#:delimeter => '.',
+			#:delimiter => '.',
 			#:separator => ','
 		}
 		
@@ -88,6 +88,18 @@ module Latinum
 			:name => 'JPY',
 			:description => 'Japanese Yen',
 			:formatter => Formatters::DecimalCurrencyFormatter
+		}
+		
+		# @name Global[:BRL]
+		# @attribute [Hash] The Brazilian Real configuration.
+		Global[:BRL] = {
+			:precision => 2,
+			:symbol => 'R$',
+			:name => 'BRL',
+			:description => 'Brazilian Real',
+			:formatter => Formatters::DecimalCurrencyFormatter,
+			:delimiter => '.',
+			:separator => ','
 		}
 		
 		# @name Global[:BTC]
