@@ -61,7 +61,7 @@ module Latinum
 			def initialize(**options)
 				@symbol = options[:symbol] || '$'
 				@separator = options[:separator] || '.'
-				@delimeter = options[:delimeter] || ','
+				@delimiter = options[:delimiter] || ','
 				@places = options[:precision] || 2
 				@zero = options[:zero] || '0'
 				
@@ -76,11 +76,11 @@ module Latinum
 			# @returns [BigDecimal] The parsed amount.
 			def parse(string)
 				BigDecimal(
-					string.gsub(/[^\-0-9#{@delimiter}]/, '').gsub(@separator, '.')
+					string.gsub(/[^\-0-9#{@separator}]/, '').gsub(@separator, '.')
 				)
 			end
 			
-			# Formats the amount using the configured symbol, separator, delimeter, and places.
+			# Formats the amount using the configured symbol, separator, delimiter, and places.
 			# e.g. "$5,000.00 NZD". Rounds the amount to the specified number of decimal places.
 			# @returns [String] The formatted string.
 			def format(amount, places: @places, **options)
@@ -101,7 +101,7 @@ module Latinum
 				groups.unshift(integral[0...remainder]) if remainder > 0
 				
 				symbol = options.fetch(:symbol, @symbol)
-				value = "#{sign}#{symbol}#{groups.join(@delimeter)}"
+				value = "#{sign}#{symbol}#{groups.join(@delimiter)}"
 				
 				name = options.fetch(:name, @name)
 				suffix = name ? " #{name}" : ''
