@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Latinum::Collection</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="../../../_static/icon.png"/>
+		<link rel="stylesheet" href="../../../_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="../../../_components/jquery/jquery.min.js"></script>
+		<script src="../../../_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script src="../../../_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header> › <a class="link" href="../../../index.html">Project</a> › <a class="link" href="../../index.html">Source</a></header>
+		
+		<main>
+			
+	<h1><code class="language-ruby">Latinum::Collection</code></h1>
+	
+	<p>Aggregates a set of resources, typically used for summing values to compute a total.</p>
+	
+	
+	
+	
+	<section>
+	<h2>Definitions</h2>
+	
+	<section id="Latinum::Collection#initialize"><h3><code class="language-ruby">def initialize(names = Set.new)</code></h3><p>Initialize the collection with a given set of resource names.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def initialize(names = Set.new)
+	@names = names
+	@resources = Hash.new {|hash, key| @names &lt;&lt; key; BigDecimal(0)}
+end</code></pre>
+					</details></section><section id="Latinum::Collection#names"><h3><code class="language-ruby">attr :names</code></h3><p>All resource names which have been added to the collection.
+e.g. <code>['NZD', 'USD']</code>.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Set</code></dt></dl>
+</details>
+</section><section id="Latinum::Collection#resources"><h3><code class="language-ruby">attr :resources</code></h3><p>Keeps track of all added resources.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>attribute</strong>　<code class="language-ruby">Hash(String, BigDecimal)</code></dt></dl>
+</details>
+</section><section id="Latinum::Collection#add"><h3><code class="language-ruby">def add(resource)</code></h3><p>Add a resource into the totals.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">resource</code>　<code class="language-ruby"><a href="../Resource/index.html" title="Latinum::Resource">Resource</a></code></dt><dd><p>The resource to add.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def add(resource)
+	@resources[resource.name] += resource.amount
+end</code></pre>
+					</details></section><section id="Latinum::Collection#&lt;&lt;"><h3><code class="language-ruby">def &lt;&lt;(object)</code></h3><p>Add a resource, an array of resources, or another collection into this one.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">object</code>　<code class="language-ruby">Resource | Array(Resource) | <a href="index.html" title="Latinum::Collection">Collection</a></code></dt><dd><p>The resource(s) to add.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def &lt;&lt;(object)
+	case object
+	when Resource
+		add(object)
+	when Array
+		object.each { |resource| add(resource) }
+	when Collection
+		object.resources.each { |name, amount| @resources[name] += amount }
+	end
+	
+	return self
+end</code></pre>
+					</details></section><section id="Latinum::Collection#-"><h3><code class="language-ruby">def - other</code></h3><p>Subtract something from this collection.</p>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def - other
+	self &lt;&lt; -other
+end</code></pre>
+					</details></section><section id="Latinum::Collection#-@"><h3><code class="language-ruby">def -@</code></h3><p>Allow negation of all values within the collection.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby"><a href="index.html" title="Latinum::Collection">Collection</a></code></dt><dd><p>A new collection with the inverted values.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def -@
+	collection = self.class.new
+	
+	@resources.each do |key, value|
+		collection.resources[key] = -value
+	end
+	
+	return collection
+end</code></pre>
+					</details></section><section id="Latinum::Collection#[]"><h3><code class="language-ruby">def [] key</code></h3><details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Resource | Nil</code></dt><dd><p>A resource for the specified name.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def [] key
+	if amount = @resources[key]
+		Resource.new(@resources[key], key)
+	end
+end</code></pre>
+					</details></section><section id="Latinum::Collection#[]="><h3><code class="language-ruby">def []= key, amount</code></h3><p>Set the amount for the specified resource name.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>parameter</strong>　<code class="syntax">key</code>　<code class="language-ruby">String</code></dt><dd><p>The resource name.</p>
+</dd><dt>
+					<strong>parameter</strong>　<code class="syntax">value</code>　<code class="language-ruby">BigDecimal</code></dt><dd><p>The resource amount.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def []= key, amount
+	@resources[key] = amount
+end</code></pre>
+					</details></section><section id="Latinum::Collection#each"><h3><code class="language-ruby">def each</code></h3><p>Iterates over all the resources.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>yields</strong>　<code class="syntax language-ruby">{|resource| ...}</code></dt><dd><p>The resources if a block is given.</p>
+</dd><dd><dl>
+<dt>
+					<strong>parameter</strong>　<code class="syntax">resource</code>　<code class="language-ruby"><a href="../Resource/index.html" title="Latinum::Resource">Resource</a></code></dt>					</dl></dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def each
+	return to_enum(:each) unless block_given?
+	
+	@resources.each do |key, value|
+		yield Resource.new(value, key)
+	end
+end</code></pre>
+					</details></section><section id="Latinum::Collection#empty?"><h3><code class="language-ruby">def empty?</code></h3><p>Whether the collection is empty.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Boolean</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def empty?
+	@resources.empty?
+end</code></pre>
+					</details></section><section id="Latinum::Collection#include?"><h3><code class="language-ruby">def include?(key)</code></h3><p>Whether the collection contains the specified resource (may be zero).</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">Boolean</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def include?(key)
+	@resources.include?(key)
+end</code></pre>
+					</details></section><section id="Latinum::Collection#compact"><h3><code class="language-ruby">def compact</code></h3><p>Generate a new collection but ignore zero values.</p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby"><a href="index.html" title="Latinum::Collection">Collection</a></code></dt><dd><p>A new collection.</p>
+</dd></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def compact
+	collection = self.class.new
+	
+	@resources.each do |key, value|
+		unless value.zero?
+			collection.resources[key] = value
+		end
+	end
+	
+	return collection
+end</code></pre>
+					</details></section><section id="Latinum::Collection#to_s"><h3><code class="language-ruby">def to_s</code></h3><p>A human readable representation of the collection.
+e.g. <code>&quot;5.0 NZD; 10.0 USD&quot;</code></p>
+<details open>
+	<summary><h4>Signature</h4></summary>
+	<dl><dt>
+					<strong>returns</strong>　<code class="language-ruby">String</code></dt></dl>
+</details>
+<details>
+						<summary><h4>Implementation</h4></summary>
+						<pre><code class="language-ruby">def to_s
+	@resources.map{|name, amount| &quot;#{amount.to_s('F')} #{name}&quot;}.join(&quot;; &quot;)
+end</code></pre>
+					</details></section>	</section>
+	
+	
+
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
