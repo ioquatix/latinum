@@ -4,5 +4,5 @@
 # Copyright, 2012-2023, by Samuel Williams.
 
 module Latinum
-	VERSION = "1.7.1"
+	VERSION = "1.8.0"
 end
