@@ -31,48 +31,71 @@ describe Latinum::Bank do
 		expect(bank.format(resource)).to be == "B⃦1.12345678 BTC"
 	end
 	
-	it "should round up using correct precision" do
-		resource = Latinum::Resource.new("19.9989", "NZD")
+	with "#round" do
+		it "should round up using correct precision" do
+			resource = Latinum::Resource.new("19.9989", "NZD")
+			
+			expect(bank.round(resource)).to be == Latinum::Resource.new(20, "NZD")
+		end
 		
-		expect(bank.round(resource)).to be == Latinum::Resource.new(20, "NZD")
+		it "should round down using correct precision" do
+			resource = Latinum::Resource.new("19.991", "NZD")
+			
+			expect(bank.round(resource)).to be == Latinum::Resource.new("19.99", "NZD")
+		end
+		
+		it "should round values when formatting" do
+			resource = Latinum::Resource.new("19.9989", "NZD")
+			
+			expect(bank.format(resource)).to be == "$20.00 NZD"
+		end
+		
+		it "should fail to round unknown currencies" do
+			resource = Latinum::Resource.new("19.9989", "B")
+			
+			expect{bank.round(resource)}.to raise_exception(ArgumentError)
+		end
 	end
 	
-	it "should round down using correct precision" do
-		resource = Latinum::Resource.new("19.991", "NZD")
+	with '#exchange' do
+		it "should exchange currencies from NZD to AUD" do
+			nzd = Latinum::Resource.new("10", "NZD")
+			
+			aud = bank.exchange nzd, "AUD"
+			expect(aud).to be == Latinum::Resource.new("5", "AUD")
+		end
 		
-		expect(bank.round(resource)).to be == Latinum::Resource.new("19.99", "NZD")
+		it "should fail to exchange currencies from NZD to unknown currency" do
+			nzd = Latinum::Resource.new("10", "NZD")
+			
+			expect{bank.exchange(nzd, "B")}.to raise_exception(ArgumentError)
+		end
 	end
 	
-	it "should round values when formatting" do
-		resource = Latinum::Resource.new("19.9989", "NZD")
+	with '#parse' do
+		it "should parse strings into resources" do
+			expect(bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
+			expect(bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
+			expect(bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
+			
+			expect(bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
 		
-		expect(bank.format(resource)).to be == "$20.00 NZD"
+			expect(bank.parse("-$5")).to be == Latinum::Resource.new("-5", "USD")
+			expect(bank.parse("-$5 NZD")).to be == Latinum::Resource.new("-5", "NZD")
+			expect(bank.parse("-€5")).to be == Latinum::Resource.new("-5", "EUR")
+		
+			expect(bank.parse("5", default_name: "EUR")).to be == Latinum::Resource.new("5", "EUR")
+			expect(bank.parse("-5", default_name: "EUR")).to be == Latinum::Resource.new("-5", "EUR")
+		end
+		
+		it "should fail to parse unknown resource" do
+			expect{bank.parse("B5")}.to raise_exception(ArgumentError)
+			expect{bank.parse("5 B")}.to raise_exception(ArgumentError)
+		end
 	end
 	
-	it "should exchange currencies from NZD to AUD" do
-		nzd = Latinum::Resource.new("10", "NZD")
-		
-		aud = bank.exchange nzd, "AUD"
-		expect(aud).to be == Latinum::Resource.new("5", "AUD")
-	end
-	
-	it "should parse strings into resources" do
-		expect(bank.parse("$5")).to be == Latinum::Resource.new("5", "USD")
-		expect(bank.parse("$5 NZD")).to be == Latinum::Resource.new("5", "NZD")
-		expect(bank.parse("€5")).to be == Latinum::Resource.new("5", "EUR")
-		
-		expect(bank.parse("5 NZD")).to be == Latinum::Resource.new("5", "NZD")
-	
-		expect(bank.parse("-$5")).to be == Latinum::Resource.new("-5", "USD")
-		expect(bank.parse("-$5 NZD")).to be == Latinum::Resource.new("-5", "NZD")
-		expect(bank.parse("-€5")).to be == Latinum::Resource.new("-5", "EUR")
-	
-		expect(bank.parse("5", default_name: "EUR")).to be == Latinum::Resource.new("5", "EUR")
-		expect(bank.parse("-5", default_name: "EUR")).to be == Latinum::Resource.new("-5", "EUR")
-	end
-	
-	it "should fail to parse unknown resource" do
-		expect{bank.parse("B5")}.to raise_exception(ArgumentError)
+	it "should fail to format an unknown resource" do
+		expect{bank.format(Latinum::Resource.new("5", "B"))}.to raise_exception(ArgumentError)
 	end
 	
 	with 'BRL currency' do

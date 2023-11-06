@@ -22,6 +22,10 @@ describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
 	it "can do basic formatting" do
 		expect(subject.format(amount)).to be == "10.0 NZD"
 	end
+	
+	it "can parse a basic string" do
+		expect(subject.parse("10.0")).to be == amount
+	end
 end
 
 describe Latinum::Formatters::DecimalCurrencyFormatter do

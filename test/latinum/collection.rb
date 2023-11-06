@@ -123,4 +123,13 @@ describe Latinum::Collection do
 			expect(collection.to_s).to be == "5.0 NZD; 10.0 AUD; 20.0 JPY"
 		end
 	end
+	
+	with '#include?' do
+		it 'can check if a resource is included' do
+			collection << Latinum::Resource.new("5.0", "NZD")
+			
+			expect(collection).to be(:include?, "NZD")
+			expect(collection).not.to be(:include?, "AUD")
+		end
+	end
 end
