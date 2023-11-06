@@ -121,8 +121,11 @@ module Latinum
 			end
 		end
 		
-		def load(value)
-			parse(value) if value
+		def load(input)
+			if input.is_a?(String)
+				input = input.strip
+				return parse(input) unless input.empty?
+			end
 		end
 		
 		def dump(resource)

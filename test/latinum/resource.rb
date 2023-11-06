@@ -36,13 +36,6 @@ describe Latinum::Resource do
 			expect(Latinum::Resource.load("10.0 NZD")).to be == resource
 			expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
 		end
-		
-		it "can pass through resources" do
-			resource = Latinum::Resource.new(10, 'NZD')
-			
-			expect(Latinum::Resource.load(resource)).to be == resource
-			expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
-		end
 	end
 	
 	it "should inspect nicely" do

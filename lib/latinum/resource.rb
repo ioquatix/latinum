@@ -26,15 +26,9 @@ module Latinum
 		# @parameter string [String | Nil] e.g. "5 NZD" or nil.
 		# @returns [Resource | Nil] The Resource that represents the parsed string.
 		def self.load(input)
-			case input
-			when String
-				# Remove any whitespaces
+			if input.is_a?(String)
 				input = input.strip
-				parse(input) unless input.empty?
-			when Resource
-				input
-			else
-				nil
+				return parse(input) unless input.empty?
 			end
 		end
 		
