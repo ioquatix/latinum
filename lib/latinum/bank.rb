@@ -121,6 +121,14 @@ module Latinum
 			end
 		end
 		
+		def load(value)
+			parse(value) if value
+		end
+		
+		def dump(resource)
+			resource.to_s if resource
+		end
+		
 		private def parse_named_resource(name, value)
 			if formatter = @formatters[name]
 				return Resource.new(formatter.parse(value), name)
