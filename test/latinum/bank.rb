@@ -9,8 +9,7 @@ require 'latinum/currencies/global'
 
 describe Latinum::Bank do
 	let(:bank) do
-		Latinum::Bank.new.tap do |bank|
-			bank.import(Latinum::Currencies::Global)
+		Latinum::Bank.new(Latinum::Currencies::Global).tap do |bank|
 			bank << Latinum::ExchangeRate.new("NZD", "AUD", "0.5")
 		end
 	end

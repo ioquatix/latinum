@@ -34,7 +34,7 @@ module Latinum
 	# A bank defines exchange rates and formatting rules for resources. It is a centralised location for resource formatting and metadata.
 	class Bank
 		# Imports all given currencies.
-		def initialize
+		def initialize(*imports)
 			@rates = []
 			@exchange = {}
 			
@@ -44,6 +44,10 @@ module Latinum
 			
 			# Symbols and their associated priorities
 			@symbols = {}
+			
+			imports&.each do |resources|
+				import(resources)
+			end
 		end
 		
 		# Import a list of resource templates, e.g. currencies.
