@@ -7,12 +7,16 @@ source 'https://rubygems.org'
 
 gemspec
 
+group :test do
+	gem "sus"
+	gem "covered"
+	gem "bake-test"
+	gem "bake-test-external"
+end
+
 group :maintenance, optional: true do
 	gem "bake-modernize"
 	gem "bake-bundler"
-	
-	gem "sus"
-	gem "covered"
 	
 	gem "utopia-project"
 end
