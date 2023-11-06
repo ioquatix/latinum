@@ -15,6 +15,37 @@ describe Latinum::Bank do
 		end
 	end
 	
+	with '.load and .dump' do
+		it "should load and dump resources" do
+			resource = Latinum::Resource.load("10 NZD")
+			string_representation = Latinum::Resource.dump(resource)
+			
+			loaded_resource = bank.load(string_representation)
+			
+			expect(loaded_resource).to be == loaded_resource
+		end
+		
+		it "should load and dump nil correctly" do
+			expect(bank.load(nil)).to be == nil
+			expect(bank.dump(nil)).to be == nil
+		end
+		
+		it "should handle empty strings correctly" do
+			expect(bank.load("")).to be == nil
+		end
+		
+		it "should handle whitespace strings correctly" do
+			expect(bank.load(" ")).to be == nil
+		end
+		
+		it "should load and dump resources correctly" do
+			resource = Latinum::Resource.new(10, 'NZD')
+			
+			expect(bank.load("10.0 NZD")).to be == resource
+			expect(bank.dump(resource)).to be == "10.0 NZD"
+		end
+	end
+	
 	it "should format the amounts correctly" do
 		resource = Latinum::Resource.new("10", "NZD")
 		
