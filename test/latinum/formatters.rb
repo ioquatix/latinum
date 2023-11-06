@@ -24,7 +24,7 @@ require 'latinum/bank'
 require 'latinum/currencies/global'
 require 'latinum/formatters'
 
-RSpec.describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
+describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
 	let(:amount) {BigDecimal(10)}
 	
 	it "can convert to integral" do
@@ -40,60 +40,62 @@ RSpec.describe Latinum::Formatters::PlainFormatter.new(name: "NZD") do
 	end
 end
 
-RSpec.describe Latinum::Formatters::DecimalCurrencyFormatter do
-	before(:all) do
-		@bank = Latinum::Bank.new
-		@bank.import(Latinum::Currencies::Global)
+describe Latinum::Formatters::DecimalCurrencyFormatter do
+	let(:bank) do
+		Latinum::Bank.new.tap do |bank|
+			bank.import(Latinum::Currencies::Global)
+		end
 	end
 	
 	let(:resource) {Latinum::Resource.load("10 NZD")}
 	
 	it "should format output" do
-		expect(@bank.format(resource)).to be == "$10.00 NZD"
+		expect(bank.format(resource)).to be == "$10.00 NZD"
 	end
 	
 	it "should format output without name" do
-		expect(@bank.format(resource, name: nil)).to be == "$10.00"
+		expect(bank.format(resource, name: nil)).to be == "$10.00"
 	end
 	
 	it "should format output with alternative name" do
-		expect(@bank.format(resource, name: "Foo")).to be == "$10.00 Foo"
+		expect(bank.format(resource, name: "Foo")).to be == "$10.00 Foo"
 	end
 	
 	it "should format output" do
-		expect(@bank.format(resource)).to be == "$10.00 NZD"
+		expect(bank.format(resource)).to be == "$10.00 NZD"
 	end
 	
 	it "should format output without symbol" do
-		expect(@bank.format(resource, symbol: nil)).to be == "10.00 NZD"
+		expect(bank.format(resource, symbol: nil)).to be == "10.00 NZD"
 	end
 	
 	it "should format output with alternative symbol" do
-		expect(@bank.format(resource, symbol: "!!")).to be == "!!10.00 NZD"
+		expect(bank.format(resource, symbol: "!!")).to be == "!!10.00 NZD"
 	end
 
 	it "should format output with alternative places" do
-		expect(@bank.format(resource, places: 4)).to be == "$10.0000 NZD"
+		expect(bank.format(resource, places: 4)).to be == "$10.0000 NZD"
 	end
 	
-	context "negative zero" do
+	with "negative zero" do
 		let(:resource) {Latinum::Resource.new(BigDecimal("-0"), "NZD")}
 		
 		it "should format as (positve) zero" do
-			expect(@bank.format(resource)).to be == "$0.00 NZD"
+			expect(bank.format(resource)).to be == "$0.00 NZD"
 		end
 	end
 end
 
-RSpec.describe Latinum::Formatters::DecimalCurrencyFormatter do
-	before(:all) do
-		@bank = Latinum::Bank.new
-		@bank.import(Latinum::Currencies::Global)
+describe Latinum::Formatters::DecimalCurrencyFormatter do
+	let(:bank) do
+		Latinum::Bank.new.tap do |bank|
+			bank.import(Latinum::Currencies::Global)
+		end
 	end
 	
 	let(:resource) {Latinum::Resource.load("10 JPY")}
 	
 	it "should format without separator or fractional part" do
-		expect(@bank.format(resource)).to be == "¥10 JPY"
+		expect(bank.format(resource)).to be == "¥10 JPY"
 	end
 end

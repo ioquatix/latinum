@@ -20,23 +20,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'latinum/resource'
+require 'latinum'
+require 'latinum/currencies/global'
 
-RSpec.describe Latinum::Resource do
-	it "should be comparable to numeric values" do
-		resource = Latinum::Resource.load("10 NZD")
-		
-		expect(resource).to be < 20
-		expect(resource).to be > 5
-		expect(resource).to be == 10
+describe Latinum::Bank do
+	let(:bank) do
+		Latinum::Bank.new.tap do |bank|
+			bank.import(Latinum::Currencies::Global)
+		end
 	end
 	
-	it "should compare with nil" do
-		a = Latinum::Resource.load("10 NZD")
+	it "should convert to NZD integral value" do
+		resource = Latinum::Resource.new("10", "NZD")
 		
-		expect{a <=> nil}.to_not raise_exception
-		expect{a == nil}.to_not raise_exception
-		expect(a <=> nil).to be == nil
-		expect(a == nil).to be == false
+		expect(bank.to_integral(resource)).to be == 1000
+		
+		expect(bank.from_integral(1000, "NZD")).to be == resource
+	end
+	
+	it "should convert to BTC integral value" do
+		resource = Latinum::Resource.new("1.12345678", "BTC")
+		
+		expect(bank.to_integral(resource)).to be == 112345678
+		
+		expect(bank.from_integral(112345678, "BTC")).to be == resource
 	end
 end
