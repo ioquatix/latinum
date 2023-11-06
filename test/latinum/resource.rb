@@ -1,28 +1,12 @@
 # frozen_string_literal: true
 
-# Copyright, 2015, by Samuel G. D. Williams. <http://www.codeotaku.com>
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# Released under the MIT License.
+# Copyright, 2015-2023, by Samuel Williams.
+# Copyright, 2015, by Michael Adams.
 
 require 'latinum/resource'
 
-RSpec.describe Latinum::Resource do
+describe Latinum::Resource do
 	it "should load and dump resources" do
 		resource = Latinum::Resource.load("10 NZD")
 		string_representation = Latinum::Resource.dump(resource)
@@ -33,16 +17,16 @@ RSpec.describe Latinum::Resource do
 	end
 	
 	it "should load and dump nil correctly" do
-		expect(Latinum::Resource.load(nil)).to be nil
-		expect(Latinum::Resource.dump(nil)).to be nil
+		expect(Latinum::Resource.load(nil)).to be == nil
+		expect(Latinum::Resource.dump(nil)).to be == nil
 	end
 	
 	it "should handle empty strings correctly" do
-		expect(Latinum::Resource.load("")).to be nil
+		expect(Latinum::Resource.load("")).to be == nil
 	end
 	
 	it "should handle whitespace strings correctly" do
-		expect(Latinum::Resource.load(" ")).to be nil
+		expect(Latinum::Resource.load(" ")).to be == nil
 	end
 	
 	it "should load and dump resources correctly" do
@@ -98,7 +82,7 @@ RSpec.describe Latinum::Resource do
 		a = Latinum::Resource.load("10 NZD")
 		b = Latinum::Resource.load("5 USD")
 		
-		expect{a+b}.to raise_error(Latinum::DifferentResourceNameError)
+		expect{a+b}.to raise_exception(Latinum::DifferentResourceNameError)
 	end
 	
 	it "should be able to negate a value" do
@@ -114,16 +98,16 @@ RSpec.describe Latinum::Resource do
 		
 		hash = {a => true}
 		
-		expect(hash).to be_include a
-		expect(hash).to_not be_include b
+		expect(hash).to have_keys(a)
+		expect(hash).not.to have_keys(b)
 	end
 	
 	it "can be zero" do
 		a = Latinum::Resource.load("10 NZD")
 		b = Latinum::Resource.load("0 NZD")
 		
-		expect(a).to_not be_zero
-		expect(b).to be_zero
+		expect(a).not.to be(:zero?)
+		expect(b).to be(:zero?)
 	end
 	
 	it "can be eql?" do
@@ -131,8 +115,8 @@ RSpec.describe Latinum::Resource do
 		b = Latinum::Resource.load("0 NZD")
 		c = Latinum::Resource.load("0 NZD")
 		
-		expect(a).to be_eql a
-		expect(a).to_not be_eql b
-		expect(b).to be_eql c
+		expect(a).to be(:eql?, a)
+		expect(a).not.to be(:eql?, b)
+		expect(b).to be(:eql?, c)
 	end
 end
