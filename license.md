@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright, 2012-2021, by Samuel Williams.  
+Copyright, 2012-2023, by Samuel Williams.  
 Copyright, 2015, by Michael Adams.  
 Copyright, 2020, by Tim Craft.  
 Copyright, 2021, by Adam Daniels.  
