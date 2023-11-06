@@ -8,7 +8,7 @@ Latinum can be easily used in a [ActiveRecord](https://github.com/rails/rails/tr
 
 ~~~ ruby
 class Transaction < ActiveRecord::Base
-	serialize :total, Latinum::Resource
+	serialize :total, coder: Latinum::Resource
 end
 ~~~
 
@@ -32,6 +32,23 @@ bank.format(transaction.total, name: nil)
 bank.format(transaction.total, symbol: nil)
 # => "20.00 NZD"
 ~~~
+
+## Bank Serialization
+
+If you want to accept ambiguous input, e.g. `$5` and have the bank determine the currency, you can use the `Latinum::Bank` as the serializer:
+
+~~~ ruby
+require 'latinum/bank'
+require 'latinum/currencies/global'
+
+class Transaction < ActiveRecord::Base
+	BANK = Latinum::Bank.new(Latinum::Currency::Global)
+
+	serialize :total, coder: BANK
+end
+~~~
+
+This will store the same format as the `Latinum::Resource` serializer, but will allow you to use the bank to determine the currency. When several symbols share the same prefix (e.g. `$`), the bank will choose the currency with the highest priority.
 
 ## Conversion To and From Integers
 
