@@ -7,33 +7,42 @@
 require 'latinum/resource'
 
 describe Latinum::Resource do
-	it "should load and dump resources" do
-		resource = Latinum::Resource.load("10 NZD")
-		string_representation = Latinum::Resource.dump(resource)
+	with '.load and .dump' do
+		it "should load and dump resources" do
+			resource = Latinum::Resource.load("10 NZD")
+			string_representation = Latinum::Resource.dump(resource)
+			
+			loaded_resource = Latinum::Resource.load(string_representation)
+			
+			expect(loaded_resource).to be == loaded_resource
+		end
 		
-		loaded_resource = Latinum::Resource.load(string_representation)
+		it "should load and dump nil correctly" do
+			expect(Latinum::Resource.load(nil)).to be == nil
+			expect(Latinum::Resource.dump(nil)).to be == nil
+		end
 		
-		expect(loaded_resource).to be == loaded_resource
-	end
-	
-	it "should load and dump nil correctly" do
-		expect(Latinum::Resource.load(nil)).to be == nil
-		expect(Latinum::Resource.dump(nil)).to be == nil
-	end
-	
-	it "should handle empty strings correctly" do
-		expect(Latinum::Resource.load("")).to be == nil
-	end
-	
-	it "should handle whitespace strings correctly" do
-		expect(Latinum::Resource.load(" ")).to be == nil
-	end
-	
-	it "should load and dump resources correctly" do
-		resource = Latinum::Resource.new(10, 'NZD')
+		it "should handle empty strings correctly" do
+			expect(Latinum::Resource.load("")).to be == nil
+		end
 		
-		expect(Latinum::Resource.load("10.0 NZD")).to be == resource
-		expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
+		it "should handle whitespace strings correctly" do
+			expect(Latinum::Resource.load(" ")).to be == nil
+		end
+		
+		it "should load and dump resources correctly" do
+			resource = Latinum::Resource.new(10, 'NZD')
+			
+			expect(Latinum::Resource.load("10.0 NZD")).to be == resource
+			expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
+		end
+		
+		it "can pass through resources" do
+			resource = Latinum::Resource.new(10, 'NZD')
+			
+			expect(Latinum::Resource.load(resource)).to be == resource
+			expect(Latinum::Resource.dump(resource)).to be == "10.0 NZD"
+		end
 	end
 	
 	it "should inspect nicely" do
